@@ -38,6 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'homepage',
+    'chart',
+    'dashboard',
+    'download',
+    'manage_album_song',
+    'playlist',
+    'podcast',
+    'royalti',
+    'search',
+    'subscription',
 ]
 
 MIDDLEWARE = [
