@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<style>
+    .centered-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        padding-top: 120px; /* Adjust the padding as needed */
+    }
+    
+    .btn a {
+        color: #5D4037; /* Dark brown */
+        text-decoration: none; /* Removes underline */
+    }
+
+    .card h1 {
+        text-align: center; /* Centers the h1 title */
+    }
+
+    .card table {
+        width: 100%; /* Full width of the card's content area */
+        border-collapse: collapse; /* Ensures borders between cells are merged */
+        table-layout: fixed; /* Helps apply a uniform column size and manage overflow */
+    }
+    .card th, .card td {
+        padding: 8px; /* Padding inside cells for better readability */
+        border-bottom: 1px solid #ddd; /* Light grey border for each row */
+        white-space: normal; /* or use 'pre-wrap' if you want to preserve line breaks */
+        word-wrap: break-word;
+    }
+
+    .card th {
+        text-align: center; /* Center-align the text in the header cells */
+        background-color: #5D4037; /* Set the background color to a brown shade */
+        color: white; /* Optional: change text color to white for better readability */
+    }
+
+    .card th:first-child {
+        border-top-left-radius: 5px; /* Rounded top left corner */
+        border-bottom-left-radius: 5px; /* Rounded bottom left corner */
+    }
+
+    .card th:last-child {
+        border-top-right-radius: 5px; /* Rounded top right corner */
+        border-bottom-right-radius: 5px; /* Rounded bottom right corner */
+    }
+
+    .card tr {
+        text-align: center; /* Center-align the text in the header cells */
+    }
+
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #F4EFEA; /* Light cream background */
+    }
+    .centered-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .card {
+        background: #FFF8F0; /* Light sandy color */
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 80%;
+        max-width: 600px;
+        margin: 20px;
+        text-align: left;
+    }
+    p {
+        color: #5D4037; /* Dark brown */
+    }
+    .btn {
+        display: inline-block;
+        width: 100%;
+        padding: 8px 15px;
+        margin-top: 10px;
+        background-color: #D7CCC8; /* Light brown */
+        color: #5D4037; /* Dark brown */
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #A1887F; /* Darker brown */
+        color: #FFF;
+    }
+    .slider {
+        width: 100%; /* Full width sliders */
+        margin: 10px 0;
+    }
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        z-index: 9999; /* Sit on top */
+        align-items: center; /* Center vertically */
+        justify-content: center; /* Center horizontally */
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+        text-align: center;
+        border-radius: 10px;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+{% endblock meta %}
+
+{% block content %}
+
+<div class="centered-container">
+    <div class="card">
+        <h1>CHART DETAIL</h1>
+        <br>
+        <h1>Tipe : Daily Top 20</h1>
+        <br>
+        <hr>
+        <h1>DAFTAR LAGU</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Judul Lagu</th>
+                    <th>Oleh</th>
+                    <th>Tanggal Rilis</th>
+                    <th>Total Plays</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Song1</td>
+                    <td>Lorem Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+                    <td>18/03/2024</td>
+                    <td>21000</td>      
+                    <td><button class="btn"><a href="#">Lihat Lagu</a></button></td>
+                </tr>
+                <tr>
+                    <td>Song2</td>
+                    <td>Lorem Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+                    <td>20/03/2024</td>
+                    <td>250000</td>      
+                    <td><button class="btn"><a href="#">Lihat Lagu</a></button></td>
+                </tr>
+                <!-- More rows can be added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</script>
+{% endblock content %}

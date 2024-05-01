@@ -1,0 +1,366 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<style>
+    .centered-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        padding-top: 120px; /* Adjust the padding as needed */
+    }
+    
+    .btn a {
+        color: #5D4037; /* Dark brown */
+        text-decoration: none; /* Removes underline */
+    }
+
+    .card h1 {
+        text-align: center; /* Centers the h1 title */
+    }
+
+    .card table {
+        width: 100%; /* Full width of the card's content area */
+        border-collapse: collapse; /* Ensures borders between cells are merged */
+        table-layout: fixed; /* Helps apply a uniform column size and manage overflow */
+    }
+    .card th, .card td {
+        padding: 8px; /* Padding inside cells for better readability */
+        border-bottom: 1px solid #ddd; /* Light grey border for each row */
+        white-space: normal; /* or use 'pre-wrap' if you want to preserve line breaks */
+        word-wrap: break-word;
+    }
+
+    .card th {
+        text-align: center; /* Center-align the text in the header cells */
+        background-color: #5D4037; /* Set the background color to a brown shade */
+        color: white; /* Optional: change text color to white for better readability */
+    }
+
+    .card th:first-child {
+        border-top-left-radius: 5px; /* Rounded top left corner */
+        border-bottom-left-radius: 5px; /* Rounded bottom left corner */
+    }
+
+    .card th:last-child {
+        border-top-right-radius: 5px; /* Rounded top right corner */
+        border-bottom-right-radius: 5px; /* Rounded bottom right corner */
+    }
+
+    .card tr {
+        text-align: center; /* Center-align the text in the header cells */
+    }
+
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #F4EFEA; /* Light cream background */
+    }
+
+    .genre-label {
+        font-family: 'Poppins', sans-serif; /* Ensures font consistency */
+        color: #5D4037; /* Dark brown, matching the body text color */
+        padding-right: 10px; /* Adds some spacing between the label and the button */
+    }
+
+    .centered-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .card {
+    background: #FFF8F0; /* Light sandy color */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px;
+    text-align: left;
+    overflow-y: auto; /* Allow vertical scrolling if content overflows */
+}
+    p {
+        color: #5D4037; /* Dark brown */
+    }
+    .btn {
+        display: inline-block;
+        width: 100%;
+        padding: 8px 15px;
+        margin-top: 10px;
+        background-color: #D7CCC8; /* Light brown */
+        color: #5D4037; /* Dark brown */
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #A1887F; /* Darker brown */
+        color: #FFF;
+    }
+    .slider {
+        width: 100%; /* Full width sliders */
+        margin: 10px 0;
+    }
+
+    .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        z-index: 9999; /* Sit on top */
+        align-items: center; /* Center vertically */
+        justify-content: center; /* Center horizontally */
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+        text-align: center;
+        border-radius: 10px;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+
+    .btn, .dropbtn {
+        display: inline-block;
+        width: 100%;
+        padding: 8px 15px;
+        margin-top: 10px;
+        background-color: #D7CCC8; /* Light brown */
+        color: #5D4037; /* Dark brown */
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn:hover, .dropbtn:hover {
+        background-color: #A1887F; /* Darker brown */
+        color: #FFF;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 1;
+        width: calc(100% - 20px); /* Adjust width to align with button */
+    }
+
+    .dropdown-content label {
+        display: block;
+        margin: 5px 0px;
+    }
+
+    input[type="text"] {
+        width: calc(100% - 20px); /* Adjust width to ensure padding is included */
+        padding: 8px 15px; /* Same padding as buttons for consistency */
+        margin-top: 10px; /* Same top margin as buttons */
+        background-color: #FFF; /* White background to match button style */
+        border: 2px solid #D7CCC8; /* Border color to match button */
+        border-radius: 5px; /* Rounded corners like the buttons */
+        font-size: 16px; /* Font size to match button text */
+        color: #5D4037; /* Text color to match button */
+        font-family: 'Poppins', sans-serif; /* Font family to match site */
+        box-sizing: border-box; /* Include padding and border in width */
+    }
+
+    input[type="text"]:focus {
+        border-color: #A1887F; /* Darker border color on focus */
+        outline: none; /* Remove default focus outline */
+    }
+
+    .dropdown, .input-group {
+        display: flex;
+        align-items: center; /* Vertical alignment of the elements */
+        width: 100%; /* Full width to align properly */
+    }
+
+    .genre-label, .input-label {
+        margin-right: 10px; /* Spacing between labels and input/button */
+        white-space: nowrap; /* Prevents the label from wrapping */
+    }
+
+    /* Button and dropdown button styles */
+    .btn, .dropbtn {
+        display: inline-block;
+        width: 100%;
+        padding: 8px 15px;
+        background-color: #D7CCC8; /* Light brown */
+        color: #5D4037; /* Dark brown */
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn:hover, .dropbtn:hover {
+        background-color: #A1887F; /* Darker brown */
+        color: #FFF;
+    }
+
+
+</style>
+{% endblock meta %}
+
+{% block content %}
+<div class="centered-container">
+    <div class="card">
+        <h1>CREATE SONG</h1>
+        <br>
+        <div class="input-group">
+            <span class="input-label"><strong>Album: Album1</strong></span>
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-label"><strong>Judul:</strong></span>
+            <input type="text" placeholder="Enter title here">
+        </div>
+        <div class="input-group">
+            <span class="input-label"><strong>Artis: Artis1</strong></span>
+        </div>
+        <div class="dropdown">
+            <span class="genre-label"><strong>Songwriter:</strong></span>
+            <div id="dropdown-content" class="dropdown-content">
+                <input type="checkbox" id="cooking" name="genre" value="Cooking">
+                <label for="cooking">Songwriter1</label>
+                <input type="checkbox" id="informational" name="genre" value="Informational">
+                <label for="informational">Songwriter2</label>
+                <input type="checkbox" id="entertainment" name="genre" value="Entertainment">
+                <label for="entertainment">Songwriter3</label>
+            </div>
+        </div>
+        <button onclick="toggleDropdown()" class="dropbtn">Select Songwriter</button>
+        <div class="dropdown">
+            <span class="genre-label"><strong>Genre:</strong></span>
+            <div id="dropdown-content" class="dropdown-content">
+                <input type="checkbox" id="cooking" name="genre" value="Cooking">
+                <label for="cooking">Cooking</label>
+                <input type="checkbox" id="informational" name="genre" value="Informational">
+                <label for="informational">Informational</label>
+                <input type="checkbox" id="entertainment" name="genre" value="Entertainment">
+                <label for="entertainment">Entertainment</label>
+            </div>
+        </div>
+        <button onclick="toggleDropdown()" class="dropbtn">Select Genre</button>
+        <div class="input-group">
+            <span class="input-label"><strong>Durasi:</strong></span>
+            <input type="text" placeholder="Enter duration here">
+        </div>
+        <button class="btn"><a href="#">Submit</a></button>
+        <br>
+        <hr>
+        <h1>DAFTAR EPISODE PADA PODCAST1</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Judul</th>
+                    <th>Durasi</th>
+                    <th>Total Play</th>
+                    <th>Total Download</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Lagu 1</td>
+                    <td>2 menit</td>
+                    <td>3</td>
+                    <td>5</td>
+                    <td><button class="btn">
+                        <a href="#">Lihat Detail</a></button>
+                        <button class="btn"><a href="#">Hapus Episode</a></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Lagu 2</td>
+                    <td>4 menit</td>
+                    <td>31</td>
+                    <td>59</td>
+                    <td><button class="btn">
+                        <a href="#">Lihat Detail</a></button>
+                        <button class="btn"><a href="#">Hapus Episode</a></button>
+                    </td>
+                </tr>
+                <!-- More rows can be added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function toggleDropdown() {
+      var dropdownContent = document.getElementById("dropdown-content");
+      if (dropdownContent.style.display === "none") {
+        dropdownContent.style.display = "block";
+      } else {
+        dropdownContent.style.display = "none";
+      }
+    }
+
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.style.display === "block") {
+            openDropdown.style.display = "none";
+          }
+        }
+      }
+    }
+</script>
+{% endblock content %}
