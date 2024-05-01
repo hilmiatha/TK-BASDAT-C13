@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Add Song to Playlist</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #F4EFEA; /* Light cream background */
+    }
+    .centered-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .card {
+        background: #FFF8F0; /* Light sandy color */
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 80%;
+        max-width: 600px;
+        margin: 20px;
+        text-align: center;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-control, select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #D7CCC8; /* Light brown */
+        color: #5D4037; /* Dark brown */
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .btn:hover {
+        background-color: #A1887F; /* Darker brown */
+        color: #FFF;
+    }
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        z-index: 9999; /* Sit on top */
+        align-items: center; /* Center vertically */
+        justify-content: center; /* Center horizontally */
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+        text-align: center;
+        border-radius: 10px;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+{% endblock meta %}
+
+{% block content %}
+<div class="centered-container">
+    <div class="card">
+        <h2>ADD SONG TO USER PLAYLIST</h2>
+        <p>Judul: {{ song_info.judul_lagu }}</p>
+        <p>Artist: {{ song_info.nama_penyanyi }}</p>
+        <form method="POST" action="#" onsubmit="return prepareModal();">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="playlist" class="form-label">Playlist:</label>
+                <select id="playlist" name="playlist" class="form-control" required>
+                    {% for playlist in playlist_info %}
+                        <option value="{{ playlist.id_playlist }}">{{ playlist.judul }}</option>
+                    {% empty %}
+                        <option disabled>No playlists available</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn">Tambah</button>
+            <a href="{% url 'show_song' id_song=song_info.id_konten %}" class="btn">Kembali</a>
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p id="modalText"></p>
+        <a href="#" class="btn">[KE PLAYLIST]</a>
+        <a href="#" class="btn" onclick="closeModal()">[KEMBALI]</a>
+    </div>
+</div>
+
+<script>
+    function prepareModal() {
+        var selectedPlaylist = document.getElementById('playlist').options[document.getElementById('playlist').selectedIndex].text;
+        document.getElementById('modalText').innerText = 'Berhasil menambahkan Lagu dengan judul \'' + '{{ song_info.judul_lagu }}' + '\' ke \'' + selectedPlaylist + '\'!';
+        showModal();
+        return false; // Prevent form submission
+    }
+
+    function showModal() {
+        document.getElementById('myModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+</script>
+{% endblock content %}

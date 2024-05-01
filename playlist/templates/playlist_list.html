@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Playlist List</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #F4EFEA; /* Updated to a light cream color */
+    }
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .card {
+        background: #FFF8F0; /* Light sandy color */
+        border-radius: 25px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 80%;
+        max-width: 800px;
+        text-align: center;
+        margin: 20px;
+    }
+    h1, h2 {
+        color: #5D4037; /* Dark brown color */
+        margin-bottom: 25px;
+    }
+    .btn {
+        display: block;
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin: 10px auto;
+        background-color: #D7CCC8; /* Light brown */
+        border: 2px solid #A1887F; /* Darker shade of brown */
+        border-radius: 20px;
+        color: #5D4037; /* Dark brown text */
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #A1887F; /* Darker brown when hovered */
+        color: #FFF8F0; /* Light sandy color for text */
+    }
+    table.playlist-table {
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    table.playlist-table, table.playlist-table th, table.playlist-table td {
+        border: 1px solid #E0E0E0; /* Lighter border for tables */
+    }
+    table.playlist-table th, table.playlist-table td {
+        padding: 10px;
+        text-align: left;
+    }
+    table.playlist-table th {
+        background-color: #D7CCC8; /* Matching light brown header */
+        color: #5D4037; /* Dark brown text for header */
+    }
+</style>
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="centered-container">
+    <div class="card">
+        <h2>USER PLAYLIST</h2>
+
+        {% if playlists %}
+            <table class="playlist-table">
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Jumlah Lagu</th>
+                        <th>Total Durasi</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for playlist in playlists %}
+                    <tr>
+                        <td>{{ playlist.judul }}</td>
+                        <td>{{ playlist.jumlah_lagu }}</td>
+                        <td>{{ playlist.total_durasi }} menit</td>
+                        <td>
+                            <a href="{% url 'playlist_detail' id_playlist=playlist.id_playlist %}">[Detail]</a>
+                            <a href="{% url 'ubah_playlist' id_playlist=playlist.id_playlist %}">[Ubah]</a>
+                            <a href="#">[Hapus]</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn" href="{% url 'buat_playlist' %}" style="margin-top: 20px;">Tambah Playlist</a>
+        {% else %}
+            <p>Anda Belum Memiliki Playlist</p>
+            <a class="btn" href="{% url 'buat_playlist' %}">Tambah Playlist</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
