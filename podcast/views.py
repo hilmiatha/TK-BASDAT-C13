@@ -15,3 +15,45 @@ def manage_podcast(request):
 
 def manage_episode(request):
     return render(request, 'manage_episode.html')
+
+def play_podcast(request):
+    context = {
+        'is_logged_in' : True,
+        'user_type_info'  : {
+            'is_pengguna_biasa' : False,
+            'is_premium' : False,
+            'is_label' : False,
+            'is_podcaster' : True,
+            'is_artist' : False,
+            'is_songwriter' : False,
+        },  
+    }
+    return render(request, 'play_podcast.html',context)
+
+def manage_podcast(request):
+    context = {
+        'is_logged_in' : True,
+        'user_type_info'  : {
+            'is_pengguna_biasa' : False,
+            'is_premium' : False,
+            'is_label' : False,
+            'is_podcaster' : True,
+            'is_artist' : False,
+            'is_songwriter' : False,
+        },  
+    }
+    return render(request, 'manage_podcast.html',context)
+
+def manage_episode(request):
+    context = {
+        'is_logged_in' : True,
+        'user_type_info'  : {
+            'is_pengguna_biasa' : False,
+            'is_premium' : False,
+            'is_label' : False,
+            'is_podcaster' : True,
+            'is_artist' : False,
+            'is_songwriter' : False,
+        },  
+    }
+    return render(request, 'manage_episode.html',context)
