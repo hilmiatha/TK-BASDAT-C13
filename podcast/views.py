@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 # @csrf_exempt
-def test_view(request):
+def play_podcast(request):
     return render(request, 'play_podcast.html')
 
 def manage_podcast(request):
