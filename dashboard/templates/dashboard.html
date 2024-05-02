@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+	Django Marmut
+{% endblock %}
+
+{% block content %}
+<nav class="mb-6">
+    {% include 'navbar.html' %}
+</nav>
+	<div class="grid lg:grid-cols-3 min-h-[80vh] gap-8">
+		<aside class="hidden lg:block">
+			{% include 'sidebar.html' %}
+		</aside>
+
+		<div class="lg:col-span-2">
+			<div class="h-16 mb-8 flex items-end justify-center">
+				<h1 class="text-xl font-medium">Your Playlist</h1>
+			</div>
+
+			<div class="bg-neutral-200 p-8 rounded-xl custom-shadow">
+				<div class="grid grid-cols-2 gap-8">
+					<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
+						<h4 class="text-center font-medium text-xl">Fall</h4>
+
+						<div class="flex items-end space-x-4">
+							<h3 class="whitespace-nowrap">Songs</h3>
+							<div class="w-full h-px bg-neutral-900"></div>
+							<h3 class="whitespace-nowrap">32</h3>
+						</div>
+
+						<div class="flex items-end space-x-4">
+							<h3 class="whitespace-nowrap">Duration</h3>
+							<div class="w-full h-px bg-neutral-900"></div>
+							<h3 class="whitespace-nowrap">1h 30m</h3>
+						</div>
+					</div>
+					<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
+						<h4 class="text-center font-medium text-xl">Summer</h4>
+
+						<div class="flex items-end space-x-4">
+							<h3 class="whitespace-nowrap">Songs</h3>
+							<div class="w-full h-px bg-neutral-900"></div>
+							<h3 class="whitespace-nowrap">32</h3>
+						</div>
+
+						<div class="flex items-end space-x-4">
+							<h3 class="whitespace-nowrap">Duration</h3>
+							<div class="w-full h-px bg-neutral-900"></div>
+							<h3 class="whitespace-nowrap">1h 30m</h3>
+						</div>
+					</div>
+					<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
+						<h4 class="text-center font-medium text-xl">Winter</h4>
+
+						<div class="flex items-end space-x-4">
+							<h3 class="whitespace-nowrap">Songs</h3>
+							<div class="w-full h-px bg-neutral-900"></div>
+							<h3 class="whitespace-nowrap">32</h3>
+						</div>
+
+						<div class="flex items-end space-x-4">
+							<h3 class="whitespace-nowrap">Duration</h3>
+							<div class="w-full h-px bg-neutral-900"></div>
+							<h3 class="whitespace-nowrap">1h 30m</h3>
+						</div>
+					</div>
+					<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
+						<h4 class="text-center font-medium text-xl">Spring</h4>
+
+						<div class="flex items-end space-x-4">
+							<h3 class="whitespace-nowrap">Songs</h3>
+							<div class="w-full h-px bg-neutral-900"></div>
+							<h3 class="whitespace-nowrap">32</h3>
+						</div>
+
+						<div class="flex items-end space-x-4">
+							<h3 class="whitespace-nowrap">Duration</h3>
+							<div class="w-full h-px bg-neutral-900"></div>
+							<h3 class="whitespace-nowrap">1h 30m</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
