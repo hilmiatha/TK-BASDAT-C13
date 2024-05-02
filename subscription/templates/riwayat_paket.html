@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Main Page</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #F4EFEA; /* Light cream background */
+    }
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+    .card {
+        background: #FFF8F0; /* Light sandy color */
+        border-radius: 25px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 70%; /* Adjust width as necessary */
+        text-align: center;
+    }
+    h1 {
+        color: #5D4037; /* Dark brown color */
+        margin-bottom: 25px;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0; /* Margin for spacing between buttons */
+        background-color: #D7CCC8; /* Light brown */
+        border: 2px solid #A1887F; /* Darker shade of brown */
+        border-radius: 20px;
+        color: #5D4037; /* Dark brown text */
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #A1887F; /* Darker brown when hovered */
+        color: #FFF8F0; /* Light sandy color for text */
+    }
+</style>
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="container justify-content-center d-flex" style="margin-top: 5%;">
+    <div class="card">
+        <table class="" style="margin-bottom: 5%; border-color: black;">
+            <thead>
+                <tr>
+                  <th scope="col" style="text-align: center;">RIWAYAT TRANSAKSI PAKET</th>
+            </thead>
+        </table>
+        <table class="table" style="margin-bottom: 5%;margin-top: 5%; border: 2px solid black;">
+            <thead>
+                <tr>
+                  <th scope="col">Jenis</th>
+                  <th scope="col">Tanggal Dimulai</th>
+                  <th scope="col">Tanggal Berakhir</th>
+                  <th scope="col">Metode Pembayaran</th>
+                  <th scope="col">Nominal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1 Bulan</td>
+                    <td>8 April 2024, 23:00</td>
+                    <td>8 Mei 2024, 23:00</td>
+                    <td>E-Wallet</td>
+                    <td>Rp54.900</td>
+                <tr>
+                <tr>
+                    <td>3 Bulan</td>
+                    <td>10 April 2024, 23:00</td>
+                    <td>10 Juli 2024, 23:00</td>
+                    <td>Transfer Bank</td>
+                    <td>Rp84.000</td>
+                <tr>
+            </tbody>
+        </table>
+        <div class="container justify-content-center d-flex">
+            <button class="btn" style="width: 20%; margin-top: 10%;">Back</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}
