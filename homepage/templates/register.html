@@ -6,8 +6,8 @@
     body, html {
         height: 100%;
         margin: 0;
-        font-family: 'Poppins', sans-serif; /* Consistent font style */
-        background-color: #f0f4f8; /* Light background */
+        font-family: 'Poppins', sans-serif;
+        background-color: #F4EFEA; /* Light cream background */
     }
     .centered {
         display: flex;
@@ -16,44 +16,45 @@
         height: 100%;
     }
     .mainpnl {
-        background: white;
-        border-radius: 25px;
+        background: #FFF8F0; /* Light sandy color */
+        border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 40px;
-        width: 50%; /* Adjust width as necessary */
+        width: 50%; /* Adjusted for aesthetics */
         text-align: center;
     }
     h1 {
-        color: #333;
+        color: #5D4037; /* Dark brown */
         margin-bottom: 25px;
     }
     .btn {
         display: block;
         width: 100%;
         padding: 10px;
-        margin: 10px 0; /* Margin for spacing between buttons */
-        background-color: #FFFFFF;
-        border: 2px solid #5ac8fa;
+        background-color: #D7CCC8; /* Light brown */
+        border: 2px solid #A1887F; /* Darker shade of brown */
         border-radius: 20px;
-        color: #5ac8fa;
+        color: #5D4037; /* Dark brown text */
         font-weight: 600;
         text-transform: uppercase;
         transition: all 0.3s ease;
         cursor: pointer;
     }
     .btn:hover {
-        background-color: #5ac8fa;
-        color: white;
+        background-color: #A1887F; /* Darker brown when hovered */
+        color: #FFF; /* Text color changes to white */
     }
 </style>
 {% endblock meta %}
 
 {% block content %}
+{%include 'navbar.html'%}
+
 <div class="centered">
     <div class="mainpnl">
         <h1>REGISTER</h1>
-        <a class="btn" href="show_register_pengguna">Pengguna</a>
-        <a class="btn" href="show_register_label">Label</a>
+        <a class="btn" href="{% url 'show_register_pengguna' %}">Pengguna</a>
+        <a class="btn" href="{% url 'show_register_label' %}">Label</a>
     </div>
 </div>
 {% endblock content %}

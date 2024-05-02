@@ -6,7 +6,19 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def homepage_view(request):
-    return render(request, 'homepage.html')
+    context = {
+        'is_logged_in' : False,
+        'user_type_info'  : {
+            'is_pengguna_biasa' : False,
+            'is_premium' : False,
+            'is_label' : False,
+            'is_podcaster' : False,
+            'is_artist' : False,
+            'is_songwriter' : False,
+        },  
+    }
+    return render(request, 'homepage.html', context)
+
 
 @csrf_exempt
 def show_login(request):

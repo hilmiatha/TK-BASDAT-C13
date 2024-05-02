@@ -7,7 +7,7 @@
         height: 100%;
         margin: 0;
         font-family: 'Poppins', sans-serif;
-        background-color: #f0f4f8; /* Light background */
+        background-color: #F4EFEA; /* Light cream background */
     }
     .centered-container {
         display: flex;
@@ -16,7 +16,7 @@
         height: 100%;
     }
     .card {
-        background: white;
+        background: #FFF8F0; /* Light sandy color */
         border-radius: 25px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 40px;
@@ -24,7 +24,7 @@
         text-align: center;
     }
     h1 {
-        color: #333;
+        color: #5D4037; /* Dark brown color */
         margin-bottom: 25px;
     }
     .btn {
@@ -32,18 +32,18 @@
         width: 100%;
         padding: 10px;
         margin: 10px 0; /* Margin for spacing between buttons */
-        background-color: #FFFFFF;
-        border: 2px solid #5ac8fa;
+        background-color: #D7CCC8; /* Light brown */
+        border: 2px solid #A1887F; /* Darker shade of brown */
         border-radius: 20px;
-        color: #5ac8fa;
+        color: #5D4037; /* Dark brown text */
         font-weight: 600;
         text-transform: uppercase;
         transition: all 0.3s ease;
         cursor: pointer;
     }
     .btn:hover {
-        background-color: #5ac8fa;
-        color: white;
+        background-color: #A1887F; /* Darker brown when hovered */
+        color: #FFF8F0; /* Light sandy color for text */
     }
 </style>
 {% endblock meta %}
@@ -53,8 +53,8 @@
 <div class="centered-container">
     <div class="card">
         <h1>MARMUT - C13</h1>
-        <a class="btn" href="{% url 'show_login' %}">Login</a> <!-- Change to <a> tag -->
-        <a class="btn" href="{% url 'show_register' %}">Register</a> <!-- Add correct URL name for register -->
+        <a class="btn" href="{% url 'show_login' %}">Login</a> <!-- Adjusted to use <a> tag -->
+        <a class="btn" href="{% url 'show_register' %}">Register</a> <!-- Correct URL for register -->
     </div>
 </div>
 {% endblock content %}

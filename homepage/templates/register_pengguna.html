@@ -1,124 +1,124 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block meta %}
 <title>Registrasi Pengguna</title>
-<div class="centered-container">
-    <div class="card">
-        <div class="card-body">
-            <h1>Registration</h1>
-
-            <form method="POST" action="" class="form-container">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="emailInput">Email</label>
-                    <input type="email" id="emailInput" name="email" placeholder="Enter your email" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label for="passwordInput">Password</label>
-                    <input type="password" id="passwordInput" name="password" placeholder="Enter your password" class="form-control">
-                </div>
-                
-                <div class="form-group">
-                    <label for="nameInput">Name</label>
-                    <input type="text" id="nameInput" name="name" placeholder="Enter your name" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label for="genderSelect">Gender</label>
-                    <select id="genderSelect" name="gender" class="form-control">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="birthplaceInput">Place of Birth</label>
-                    <input type="text" id="birthplaceInput" name="birthplace" placeholder="Enter your place of birth" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label for="birthdateInput">Date of Birth</label>
-                    <input type="date" id="birthdateInput" name="birthdate" class="form-control">
-                </div>
-                
-                <div class="form-group">
-                    <label for="cityInput">City of Residence</label>
-                    <input type="text" id="cityInput" name="city" placeholder="Enter your city of residence" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label>Role:</label><br>
-                    <input type="radio" id="podcasterRadio" name="role" value="podcaster">
-                    <label for="podcasterRadio">Podcaster</label><br>
-                    <input type="radio" id="artistRadio" name="role" value="artist">
-                    <label for="artistRadio">Artist</label><br>
-                    <input type="radio" id="songwriterRadio" name="role" value="songwriter">
-                    <label for="songwriterRadio">Songwriter</label>
-                </div>
-
-                <div class="form-group text-center">
-                    <button class="btn" type="submit">Register</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <style>
     body, html {
         height: 100%;
         margin: 0;
         font-family: 'Poppins', sans-serif;
-        background-color: #f0f4f8;
+        background-color: #F4EFEA; /* Light cream background */
     }
     .centered-container {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100%;
     }
     .card {
-        background: white;
-        border-radius: 25px;
+        background: #FFF8F0; /* Light sandy color */
+        border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 40px;
-        width: 750px;
+        padding: 20px;
+        width: 750px; /* Adjusted for your form's requirements */
         text-align: center;
     }
     h1 {
-        color: #333;
-        margin-bottom: 25px;
+        color: #5D4037; /* Dark brown */
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #5D4037; /* Dark brown */
+    }
+    .form-control, select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
     }
     .btn {
         display: block;
         width: 100%;
         padding: 10px;
-        background-color: #FFFFFF;
-        border: 2px solid #5ac8fa;
-        border-radius: 20px;
-        color: #5ac8fa;
-        font-weight: 600;
-        text-transform: uppercase;
-        transition: all 0.3s ease;
+        background-color: #D7CCC8; /* Light brown */
+        color: #5D4037; /* Dark brown */
+        border-radius: 5px;
+        border: none;
         cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
     }
     .btn:hover {
-        background-color: #5ac8fa;
-        color: white;
-    }
-    .form-group {
-        margin-bottom: 1rem;
-    }
-    .form-control {
-        padding: 0.5rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-    .text-danger {
-        color: #dc3545;
+        background-color: #A1887F; /* Darker brown */
+        color: #FFF;
     }
     .text-center {
         text-align: center;
     }
+    .text-danger {
+        color: #dc3545; /* Error message color */
+    }
 </style>
+{% endblock meta %}
+
+{% block content %}
+{%include 'navbar.html'%}
+
+<div class="centered-container">
+    <div class="card">
+        <h1>Registration</h1>
+        <form method="POST" action="" class="form-container">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="emailInput" class="form-label">Email:</label>
+                <input type="email" id="emailInput" name="email" placeholder="Enter your email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="passwordInput" class="form-label">Password:</label>
+                <input type="password" id="passwordInput" name="password" placeholder="Enter your password" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="nameInput" class="form-label">Name:</label>
+                <input type="text" id="nameInput" name="name" placeholder="Enter your name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="genderSelect" class="form-label">Gender:</label>
+                <select id="genderSelect" name="gender" class="form-control">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="birthplaceInput" class="form-label">Place of Birth:</label>
+                <input type="text" id="birthplaceInput" name="birthplace" placeholder="Enter your place of birth" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="birthdateInput" class="form-label">Date of Birth:</label>
+                <input type="date" id="birthdateInput" name="birthdate" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="cityInput" class="form-label">City of Residence:</label>
+                <input type="text" id="cityInput" name="city" placeholder="Enter your city of residence" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Role:</label><br>
+                <input type="radio" id="podcasterRadio" name="role" value="podcaster">
+                <label for="podcasterRadio">Podcaster</label><br>
+                <input type="radio" id="artistRadio" name="role" value="artist">
+                <label for="artistRadio">Artist</label><br>
+                <input type="radio" id="songwriterRadio" name="role" value="songwriter">
+                <label for="songwriterRadio">Songwriter</label>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock content %}
