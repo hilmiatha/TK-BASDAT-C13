@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Main Page</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #F4EFEA; /* Light cream background */
+    }
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+    .card {
+        background: #FFF8F0; /* Light sandy color */
+        border-radius: 25px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 70%; /* Adjust width as necessary */
+        text-align: center;
+        margin-top: 4%;
+    }
+    h1 {
+        color: #5D4037; /* Dark brown color */
+        margin-bottom: 25px;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0; /* Margin for spacing between buttons */
+        background-color: #D7CCC8; /* Light brown */
+        border: 2px solid #A1887F; /* Darker shade of brown */
+        border-radius: 20px;
+        color: #5D4037; /* Dark brown text */
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-size: 0.5em;
+    }
+    .btn:hover {
+        background-color: #A1887F; /* Darker brown when hovered */
+        color: #FFF8F0; /* Light sandy color for text */
+    }
+</style>
+{% endblock meta %}
+
+{% block content %}
+<div class="container justify-content-center d-flex"">
+    <div class="card">
+        Maaf, pencarian untuk "love" tidak ditemukan
+    </div>
+</div>
+{% endblock content %}
