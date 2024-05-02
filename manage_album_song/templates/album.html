@@ -246,6 +246,8 @@ input[type="radio"] {
 {% endblock meta %}
 
 {% block content %}
+
+{% include 'navbar.html' %}
 <div class="centered-container">
     <div class="card">
         <h1>CREATE ALBUM</h1>
@@ -265,7 +267,7 @@ input[type="radio"] {
                 <label for="entertainment">Label3</label>
             </div>
         </div>
-        <button onclick="toggleDropdown()" class="dropbtn">Select Genre</button>
+        <button onclick="toggleDropdown()" class="dropbtn">Select Label</button>
         <button class="btn"><a href="#">Submit</a></button>
         <br>
         <hr>
