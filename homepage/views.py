@@ -81,9 +81,11 @@ def show_register_pengguna(request):
         birthdate = request.POST.get('birthdate')
         city = request.POST.get('city')
         gender = 1 if request.POST.get('gender') == 'male' else 0
-        role_podcaster = request.POST.get('role_podcaster') == 'on'
-        role_artist = request.POST.get('role_artist') == 'on'
-        role_songwriter = request.POST.get('role_songwriter') == 'on'
+        role_podcaster = request.POST.get('is_podcaster') == 'podcaster'
+        role_artist = request.POST.get('is_artist') == 'artist'
+        role_songwriter = request.POST.get('is_songwriter') == 'songwriter'
+        
+        print(role_podcaster, role_artist, role_songwriter)
 
         cursor = connection.cursor()
 
