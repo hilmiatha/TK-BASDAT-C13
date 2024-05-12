@@ -67,7 +67,7 @@
 {% endblock meta %}
 
 {% block content %}
-{%include 'navbar.html'%}
+
 
 <div class="centered-container">
     <div class="card">
@@ -83,8 +83,8 @@
                 <input type="password" id="passwordInput" name="password" class="form-control" placeholder="Enter your password" required>
             </div>
             <button type="submit" class="btn">Login</button>
-            {% if msg %}
-            <p class="text-danger text-center">{{ msg }}</p>
+            {% if error_message %}
+            <p class="text-danger text-center">{{ error_message }}</p>
             {% endif %}
         </form>
     </div>

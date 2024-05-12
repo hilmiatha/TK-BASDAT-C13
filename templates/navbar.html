@@ -102,7 +102,7 @@
 
    {% if is_logged_in %}
             <div class="w-0.5 h-8 bg-tertiary"></div>
-            <a href="#" class="text-xl font-medium nav-link">Logout</a>
+            <a href="{% url 'logout' %}" class="text-xl font-medium nav-link">Logout</a>
    <div class="w-0.5 h-8 bg-tertiary"></div>
          {% endif %}
 

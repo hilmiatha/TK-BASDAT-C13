@@ -68,11 +68,12 @@
 {% endblock meta %}
 
 {% block content %}
-{%include 'navbar.html'%}
-
 <div class="centered-container">
     <div class="card">
         <h1>Registrasi Label</h1>
+        {% if error_message %}
+            <p class="text-danger">{{ error_message }}</p>
+        {% endif %}
         <form method="POST" action="" class="form-container">
             {% csrf_token %}
             <div class="form-group">
