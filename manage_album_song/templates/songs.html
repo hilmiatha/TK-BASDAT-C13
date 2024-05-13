@@ -258,53 +258,66 @@
 
 {% block content %}
 
-{% include 'navbar.html' %}
+{% comment %} {% include 'navbar.html' %} {% endcomment %}
 
 
 <div class="centered-container">
     <div class="card">
         <h1>CREATE SONG</h1>
         <br>
+        <form method="POST" action="{% url 'songs' %}">
+        {%csrf_token%}
         <div class="input-group">
             <span class="input-label"><strong>Album: Album1</strong></span>
         </div>
         <br>
         <div class="input-group">
             <span class="input-label"><strong>Judul:</strong></span>
-            <input type="text" placeholder="Enter title here">
+            <input type="text" placeholder="Enter title here" name="judul">
         </div>
+        {% if request.session.is_songwriter %}
         <div class="input-group">
-            <span class="input-label"><strong>Artis: Artis1</strong></span>
+            <span class="input-label"><strong>Artis: {{request.session.email}}</strong></span>
         </div>
+        {% elif request.session.is_artist%}
+        <div class="dropdown">
+            <span class="genre-label"><strong>Artist:</strong></span>
+            <div id="dropdown-content-artist" class="dropdown-content">
+                {% for artist in artists %}
+                    <input type="radio" id="artist{{ artist.id }}" name="artist" value="{{ artist.id }}">
+                    <label for="artist{{ artist.id }}">{{ artist.akun_name }}</label>
+                {% endfor %}
+            </div>
+        </div>
+        <button onclick="toggleDropdown('dropdown-content-artist')"  type="button" class="dropbtn">Select Artist</button>
+            
+        {% endif %}
         <div class="dropdown">
             <span class="genre-label"><strong>Songwriter:</strong></span>
-            <div id="dropdown-content" class="dropdown-content">
-                <input type="checkbox" id="cooking" name="genre" value="Cooking">
-                <label for="cooking">Songwriter1</label>
-                <input type="checkbox" id="informational" name="genre" value="Informational">
-                <label for="informational">Songwriter2</label>
-                <input type="checkbox" id="entertainment" name="genre" value="Entertainment">
-                <label for="entertainment">Songwriter3</label>
+            <div id="dropdown-content-songwriter" class="dropdown-content">
+                {% for songwriter in songwriters %}
+                    <input type="checkbox" id="songwriter{{ songwriter.id }}" name="songwriter" value="{{ songwriter.id }}">
+                    <label for="songwriter{{ songwriter.id }}">{{ songwriter.akun_name }}</label>
+                {% endfor %}
             </div>
         </div>
-        <button onclick="toggleDropdown()" class="dropbtn">Select Songwriter</button>
+        <button onclick="toggleDropdown('dropdown-content-songwriter')"  type="button" class="dropbtn">Select Songwriter</button>
         <div class="dropdown">
             <span class="genre-label"><strong>Genre:</strong></span>
-            <div id="dropdown-content" class="dropdown-content">
-                <input type="checkbox" id="cooking" name="genre" value="Cooking">
-                <label for="cooking">Cooking</label>
-                <input type="checkbox" id="informational" name="genre" value="Informational">
-                <label for="informational">Informational</label>
-                <input type="checkbox" id="entertainment" name="genre" value="Entertainment">
-                <label for="entertainment">Entertainment</label>
+            <div id="dropdown-content-genre" class="dropdown-content">
+                {% for genre in genres %}
+                    <input type="checkbox" id="genre{{ genre.id_konten }}" name="genre" value="{{ genre.id_konten }}">
+                    <label for="genre{{ genre.id_konten }}">{{ genre.genre }}</label>
+                {% endfor %}
             </div>
         </div>
-        <button onclick="toggleDropdown()" class="dropbtn">Select Genre</button>
+        <button onclick="toggleDropdown('dropdown-content-genre')" type="button" class="dropbtn">Select Genre</button>
         <div class="input-group">
             <span class="input-label"><strong>Durasi:</strong></span>
-            <input type="text" placeholder="Enter duration here">
+            <input type="text" placeholder="Enter duration here" name="duration">
         </div>
-        <button class="btn"><a href="#">Submit</a></button>
+        <input type="submit" class="btn" value="Submit">
+        </form>
         <br>
         <hr>
         <h1>DAFTAR LAGU PADA ALBUM1</h1>
@@ -346,25 +359,25 @@
 </div>
 
 <script>
-    function toggleDropdown() {
-      var dropdownContent = document.getElementById("dropdown-content");
-      if (dropdownContent.style.display === "none") {
-        dropdownContent.style.display = "block";
-      } else {
-        dropdownContent.style.display = "none";
-      }
+    function toggleDropdown(contentId) {
+        var dropdownContent = document.getElementById(contentId);
+        if (dropdownContent.style.display === "none") {
+            dropdownContent.style.display = "block";
+        } else {
+            dropdownContent.style.display = "none";
+        }
     }
 
     window.onclick = function(event) {
-      if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        for (var i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.style.display === "block") {
-            openDropdown.style.display = "none";
-          }
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block") {
+                    openDropdown.style.display = "none";
+                }
+            }
         }
-      }
     }
 </script>
 {% endblock content %}

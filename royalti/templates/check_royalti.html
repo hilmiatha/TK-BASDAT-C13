@@ -157,21 +157,15 @@
                 </tr>
             </thead>
             <tbody>
+                {% for key, value in song.items %}
                 <tr>
-                    <td>Lagu1</td>
-                    <td>Album1</td>
-                    <td>3</td>
-                    <td>0</td>
-                    <td>Rp450000</td>
+                    <td>{{value.konten.0.judul}}</td>
+                    <td>{{value.album.0.0.judul}}</td>
+                    <td>{{value.song.total_play}}</td>
+                    <td>{{value.song.total_download}}</td>
+                    <td>Rp{{value.royalti.jumlah}}</td>
                 </tr>
-                <tr>
-                    <td>Lagu2</td>
-                    <td>Album4</td>
-                    <td>5</td>
-                    <td>1</td>
-                    <td>Rp900000</td>
-                </tr>
-                <!-- More rows can be added here -->
+                {% endfor %}
             </tbody>
         </table>
     </div>

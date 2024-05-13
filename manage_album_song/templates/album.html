@@ -247,29 +247,29 @@ input[type="radio"] {
 
 {% block content %}
 
-{% include 'navbar.html' %}
+{% comment %} {% include 'navbar.html' %} {% endcomment %}
 <div class="centered-container">
     <div class="card">
         <h1>CREATE ALBUM</h1>
         <br>
-        <div class="input-group">
-            <span class="input-label"><strong>Judul:</strong></span>
-            <input type="text" placeholder="Enter title here">
-        </div>
-        <div class="dropdown">
-            <span class="genre-label"><strong>Label:</strong></span>
-            <div id="dropdown-content" class="dropdown-content">
-                <input type="radio" id="label1" name="label" value="label1">
-                <label for="cooking">Label 1</label>
-                <input type="radio" id="label2" name="label" value="label2">
-                <label for="informational">Label 2</label>
-                <input type="radio" id="label3" name="label" value="label3">
-                <label for="entertainment">Label3</label>
+        <form action="{% url 'album' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <span class="input-label"><strong>Judul:</strong></span>
+                <input type="text" placeholder="Enter title here" name="judul">
             </div>
-        </div>
-        <button onclick="toggleDropdown()" class="dropbtn">Select Label</button>
-        <button class="btn"><a href="#">Submit</a></button>
-        <br>
+            <div class="dropdown">
+                <span class="genre-label"><strong>Label:</strong></span>
+                <div id="dropdown-content" class="dropdown-content">
+                    {% for label in labels %}
+                    <input type="radio" id={{label.id}} name="label" value={{label.id}}>
+                    <label for="cooking">{{label.nama}}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            <button onclick="toggleDropdown()" type="button" class="dropbtn">Select Label</button>
+            <input type="submit" class="btn" value="Submit">
+        </form>
         <hr>
         <h1>LIST ALBUM</h1>
         <table>
@@ -283,27 +283,18 @@ input[type="radio"] {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Album 1</td>
-                    <td>LabelA</td>
-                    <td>0</td>
-                    <td>5 menit</td>
-                    <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button>
-                        <button class="btn"><a href="#">Tambah Lagu</a></button>
-                        <button class="btn"><a href="#">Hapus Album</a></button>
-                    </td>
-                </tr>
-                <<tr>
-                    <td>Album 2</td>
-                    <td>LabelB</td>
-                    <td>20</td>
-                    <td>20 menit</td>
-                    <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button>
-                        <button class="btn"><a href="#">Tambah Lagu</a></button>
-                        <button class="btn"><a href="#">Hapus Album</a></button>
-                    </td>
-                </tr>
-                <!-- More rows can be added here -->
+                {% for album in albums %}
+                    <tr>
+                        <td>{{album.judul}}</td>
+                        <td>{{album.label_name}}</td>
+                        <td>{{album.jumlah_lagu}}</td>
+                        <td>{{album.total_durasi}}</td>
+                        <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button>
+                            <button class="btn"><a href="#">Tambah Lagu</a></button>
+                            <button class="btn"><a href="{% url 'delete_album' id=album.id %}">Hapus Album</a></button>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
