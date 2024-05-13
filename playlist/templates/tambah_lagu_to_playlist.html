@@ -68,6 +68,9 @@
 <div class="centered-container">
     <div class="card">
         <h2>TAMBAH LAGU</h2>
+        {% if error_message %}
+            <p class="text-danger">{{ error_message }}</p>
+        {% endif %}
         <form method="POST" action="#">
             {% csrf_token %}
             <div class="form-group">
