@@ -10,21 +10,11 @@ from .functions import *
 ##### =============================== FITUR 1 ============================================
 def show_playlist(request):
     cursor = connection.cursor()
-    cursor.execute(get_playlist('zaoqgo9@demo.net'))
+    cursor.execute(get_playlist(request.session['email']))
     res = parse(cursor)
     context = {
         'playlists': res,
-        'is_logged_in' : True,
-        'user_type_info'  : {
-            'is_pengguna_biasa' : True,
-            'is_premium' : False,
-            'is_label' : False,
-            'is_podcaster' : True,
-            'is_artist' : False,
-            'is_songwriter' : False,
-        }, 
     }
-    
     return render(request, 'playlist_list.html',context)
 
 def buat_playlist(request):
@@ -32,31 +22,20 @@ def buat_playlist(request):
         # Get data from the form
         title = request.POST.get('judul')
         description = request.POST.get('deskripsi')
-
-        # Placeholder: Process form data here (e.g., save to database)
-        # For now, we'll just display a success message and redirect
-        messages.success(request, f"Playlist '{title}' has been created successfully.")
-
-        # Redirect to the playlist listing page (change 'show_playlist' to your actual URL name)
+        
+        cursor = connection.cursor()
+        cursor.execute(insert_playlist(request.session['email'], title, description))
+        connection.commit()
+        
         return redirect('show_playlist')
     
-    # If GET request or any other method, render an empty form
-    context = {
-        'is_logged_in' : True,
-        'user_type_info'  : {
-            'is_pengguna_biasa' : True,
-            'is_premium' : False,
-            'is_label' : False,
-            'is_podcaster' : False,
-            'is_artist' : False,
-            'is_songwriter' : False,
-        }, 
-    }
-    return render(request, 'buat_playlist.html', context)
+    return render(request, 'buat_playlist.html')
 
 def playlist_detail(request, id_playlist): ######### INI FITUR 3 BERLAKU JUGA
     
     cursor = connection.cursor()
+    cursor.execute(f"SELECT nama FROM akun a, user_playlist up WHERE a.email = up.email_pembuat AND up.id_playlist = '{id_playlist}';")
+    nama_pembuat = parse(cursor)[0].get('nama')
     cursor.execute(get_playlist_detail(id_playlist))
     res = parse(cursor)
     cursor.execute(get_playlist_info(id_playlist))
@@ -65,16 +44,9 @@ def playlist_detail(request, id_playlist): ######### INI FITUR 3 BERLAKU JUGA
     context = {
         'playlist_song': res,
         'playlist_info': res2,
-        'user_is_owner': True,
-        'is_logged_in' : True,
-        'user_type_info'  : {
-            'is_pengguna_biasa' : True,
-            'is_premium' : False,
-            'is_label' : False,
-            'is_podcaster' : False,
-            'is_artist' : False,
-            'is_songwriter' : False,
-        },
+        'id_playlist_root' : id_playlist,
+        'nama_pembuat' : nama_pembuat, 
+        
     }
     
     
@@ -86,17 +58,26 @@ def tambah_lagu_to_playlist(request, id_playlist):
     res = parse(cursor)
     context = {
         'lagu': res,
-        'id_playlist': {'a':id_playlist},
-        'is_logged_in' : True,
-        'user_type_info'  : {
-            'is_pengguna_biasa' : True,
-            'is_premium' : False,
-            'is_label' : False,
-            'is_podcaster' : False,
-            'is_artist' : False,
-            'is_songwriter' : False,
-        },
     }
+    
+    if request.method == 'POST':
+        # Get data from the form
+        id_lagu = request.POST.get('lagu')
+        
+        cursor.execute(f"SELECT * FROM playlist_song WHERE id_playlist = '{id_playlist}' AND id_song = '{id_lagu}';")
+        if len(parse(cursor)) > 0:
+            # Lagu sudah ada di playlist
+            context['error_message'] = 'Lagu sudah ada di playlist'
+            return render(request, 'tambah_lagu_to_playlist.html', context)
+        
+        cursor.execute(f"SELECT durasi FROM konten WHERE id = '{id_lagu}';")
+        durasi =parse(cursor)[0].get('durasi')
+        
+        cursor.execute(insert_playlist_song(id_playlist, id_lagu, durasi))
+        connection.commit()
+        
+        return redirect('playlist_detail', id_playlist=id_playlist)
+    
     return render(request, 'tambah_lagu_to_playlist.html', context)
 
 
@@ -107,8 +88,29 @@ def show_ubah_playlist(request, id_playlist):
     context = {
         'playlist': res[0]
     }
-    print(res[0])
+    if request.method == 'POST':
+        # Get data from the form
+        title = request.POST.get('judul')
+        description = request.POST.get('deskripsi')
+        
+        cursor.execute(f"SELECT id_user_playlist FROM user_playlist WHERE id_playlist = '{id_playlist}';")
+        id_user_playlist = parse(cursor)[0].get('id_user_playlist')
+        
+        cursor.execute(update_playlist(title, description, id_user_playlist))
+        connection.commit()
+        
+        return redirect('show_playlist')
     return render(request, 'ubah_playlist.html', context)
+
+
+def hapus_playlist(request, id_playlist):
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT id_user_playlist FROM user_playlist WHERE id_playlist = '{id_playlist}';")
+    id_user_playlist = parse(cursor)[0].get('id_user_playlist')
+    cursor.execute(delete_playlist(id_user_playlist, id_playlist))
+    connection.commit()
+    return redirect('show_playlist')
+
 
 ##### =============================== FITUR 2 ============================================
 
