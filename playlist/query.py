@@ -77,9 +77,13 @@ WHERE id_user_playlist = '{id_user_playlist}';"""
 def insert_playlist_song(id_playlist, id_lagu, durasi):
     return f"""INSERT INTO playlist_song (id_playlist, id_song)
 VALUES ('{id_playlist}', '{id_lagu}');
-UPDATE user_playlist
-SET jumlah_lagu = jumlah_lagu + 1, total_durasi = total_durasi + {durasi}
-WHERE id_playlist = '{id_playlist}';"""
+"""
+
+
+def delete_song_from_playlist(id_playlist, id_lagu):
+    return f"""DELETE FROM playlist_song 
+WHERE id_playlist = '{id_playlist}' AND id_song = '{id_lagu}';
+"""
   
   
   
