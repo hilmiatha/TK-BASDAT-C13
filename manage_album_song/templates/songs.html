@@ -265,26 +265,27 @@
     <div class="card">
         <h1>CREATE SONG</h1>
         <br>
-        <form method="POST" action="{% url 'songs' %}">
+        <form method="POST" action="{% url 'songs' id=album_id %}">
         {%csrf_token%}
         <div class="input-group">
-            <span class="input-label"><strong>Album: Album1</strong></span>
+            <span class="input-label"><strong>Album: {{album.judul}}</strong></span>
         </div>
         <br>
         <div class="input-group">
             <span class="input-label"><strong>Judul:</strong></span>
             <input type="text" placeholder="Enter title here" name="judul">
         </div>
-        {% if request.session.is_songwriter %}
+        {% if request.session.is_artist %}
         <div class="input-group">
-            <span class="input-label"><strong>Artis: {{request.session.email}}</strong></span>
+            <span class="input-label"><strong>Artist: {{user.0.nama}}</strong></span>
+            <input type="hidden" name="id_artist" value="{{ user.0.id }}">
         </div>
-        {% elif request.session.is_artist%}
+        {% elif request.session.is_songwriter %}
         <div class="dropdown">
             <span class="genre-label"><strong>Artist:</strong></span>
             <div id="dropdown-content-artist" class="dropdown-content">
                 {% for artist in artists %}
-                    <input type="radio" id="artist{{ artist.id }}" name="artist" value="{{ artist.id }}">
+                    <input type="radio" id="artist{{ artist.id }}" name="id_artist" value="{{ artist.id }}">
                     <label for="artist{{ artist.id }}">{{ artist.akun_name }}</label>
                 {% endfor %}
             </div>
@@ -296,7 +297,8 @@
             <span class="genre-label"><strong>Songwriter:</strong></span>
             <div id="dropdown-content-songwriter" class="dropdown-content">
                 {% for songwriter in songwriters %}
-                    <input type="checkbox" id="songwriter{{ songwriter.id }}" name="songwriter" value="{{ songwriter.id }}">
+                    <input type="checkbox" id="songwriter{{ songwriter.id }}" name="songwriter" value="{{ songwriter.id }}"
+                    {% if songwriter.email_akun == request.session.email %}checked{% endif %}>
                     <label for="songwriter{{ songwriter.id }}">{{ songwriter.akun_name }}</label>
                 {% endfor %}
             </div>
@@ -306,8 +308,8 @@
             <span class="genre-label"><strong>Genre:</strong></span>
             <div id="dropdown-content-genre" class="dropdown-content">
                 {% for genre in genres %}
-                    <input type="checkbox" id="genre{{ genre.id_konten }}" name="genre" value="{{ genre.id_konten }}">
-                    <label for="genre{{ genre.id_konten }}">{{ genre.genre }}</label>
+                    <input type="checkbox" id="genre{{ genre.genre }}" name="genre" value="{{ genre.genre}}">
+                    <label for="genre{{ genre.genre }}">{{ genre.genre }}</label>
                 {% endfor %}
             </div>
         </div>
@@ -320,7 +322,7 @@
         </form>
         <br>
         <hr>
-        <h1>DAFTAR LAGU PADA ALBUM1</h1>
+        <h1>DAFTAR LAGU PADA {{album.judul}}</h1>
         <table>
             <thead>
                 <tr>
@@ -332,26 +334,17 @@
                 </tr>
             </thead>
             <tbody>
+                {% for song in songs %}
                 <tr>
-                    <td>Lagu 1</td>
-                    <td>2 menit</td>
-                    <td>3</td>
-                    <td>5</td>
-                    <td><button class="btn">
-                        <a href="#">Lihat Detail</a></button>
-                        <button class="btn"><a href="#">Hapus Episode</a></button>
+                    <td>{{song.judul}}</td>
+                    <td>{{song.durasi}} menit</td>
+                    <td>{{song.total_play}}</td>
+                    <td>{{song.total_download}}</td>
+                    <td><button class="btn"><a href="#">Lihat Detail Lagu</a></button>
+                        <button class="btn"><a href="/manage_album_song/delete-song/{{song.id_konten}}?album_id={{album_id}}">Hapus Lagu</a></button>
                     </td>
                 </tr>
-                <tr>
-                    <td>Lagu 2</td>
-                    <td>4 menit</td>
-                    <td>31</td>
-                    <td>59</td>
-                    <td><button class="btn">
-                        <a href="#">Lihat Detail</a></button>
-                        <button class="btn"><a href="#">Hapus Episode</a></button>
-                    </td>
-                </tr>
+                {%endfor%}
                 <!-- More rows can be added here -->
             </tbody>
         </table>

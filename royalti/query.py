@@ -2,68 +2,10 @@ from django.db import connection
 from utils import parse
 from uuid import uuid4
 
-
-def get_all_labels():
-    return f"SELECT * FROM LABEL"
-
-def get_all_albums():
-    return """
-        SELECT A.*, L.nama AS label_name
-        FROM ALBUM A
-        JOIN LABEL L ON A.id_label = L.id
-    """
-
-def get_all_artists():
-    return """
-        SELECT AR.*, AK.nama AS akun_name FROM ARTIST AR
-        JOIN AKUN AK ON AK.email = AR.email_akun
-    """
-
-def get_all_songwriters():
-    return """
-        SELECT S.*, AK.nama AS akun_name FROM SONGWRITER S
-        JOIN AKUN AK ON AK.email = S.email_akun
-    """
-
-def get_all_genres():
-    return """
-        SELECT G.*, K.* FROM GENRE G
-        JOIN KONTEN K ON K.id = G.id_konten
-    """
-
-def get_all_songs():
-    return """
-        SELECT * FROM SONG
-    """
-
-def create_album():
-    return """
-        INSERT INTO ALBUM (id, judul, id_label)
-        VALUES (%s, %s, %s);
-    """
-
 def delete_album_by_id():
     return f"""
         DELETE FROM ALBUM
         WHERE id = %s;
-    """
-
-def create_song():
-    return """
-        INSERT INTO SONG (id_konten, id_artist, id_album)
-        VALUES (%s, %s, %s)
-    """
-
-def assign_songwriter():
-    return """
-        INSERT INTO SONGWRITER_WRITE_SONG (id_songwriter, id_song)
-        VALUES (%s, %s)
-    """
-
-def create_konten():
-    return """
-        INSERT INTO KONTEN (id, judul, tanggal_rilis, tahun, durasi)
-        VALUES (%s, %s, %s, %s, %s)
     """
 
 def get_song_by_id_artist():
@@ -121,4 +63,63 @@ def get_royalti_by_id():
     return """
         SELECT * FROM ROYALTI
         WHERE id_pemilik_hak_cipta = %s AND id_song = %s
+    """
+
+def get_songwriter_by_email():
+    return """
+        SELECT * FROM SONGWRITER
+        WHERE email_akun = %s
+    """
+
+def get_id_song_by_songwriter():
+    return """
+        SELECT * FROM SONGWRITER_WRITE_SONG
+        WHERE id_songwriter = %s
+    """
+    
+def get_song_by_id_konten():
+    return """
+        SELECT * FROM SONG
+        WHERE id_konten = %s
+    """
+
+def get_label_by_email():
+    return """
+        SELECT * FROM LABEL
+        WHERE email = %s
+    """
+
+def get_album_by_id_label():
+    return """
+        SELECT * FROM ALBUM
+        WHERE id_label = %s
+    """
+
+def get_song_by_id_album():
+    return """
+        SELECT * FROM SONG
+        WHERE id_album = %s
+    """
+
+def get_album_by_id_label():
+    return """
+        SELECT A.*
+        FROM ALBUM A
+        JOIN LABEL L ON L.id = A.id_label
+        WHERE L.id = %s 
+    """
+
+def get_label_by_email():
+    return """
+        SELECT * 
+        FROM LABEL
+        WHERE email = %s
+    """
+
+def get_song_konten_by_id_album():
+    return """
+        SELECT S.*, K.*
+        FROM SONG S
+        JOIN KONTEN K ON S.id_konten = K.id
+        WHERE S.id_album = %s
     """

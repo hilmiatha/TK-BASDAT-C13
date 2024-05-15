@@ -7,82 +7,258 @@
 
 {% block content %}
 <nav class="mb-6">
-    {% include 'navbar.html' %}
+    {% comment %} {% include 'navbar.html' %} {% endcomment %}
 </nav>
 	<div class="grid lg:grid-cols-3 min-h-[80vh] gap-8">
 		<aside class="hidden lg:block">
-			{% include 'sidebar.html' %}
+			<div class="flex items-center space-x-4 mb-8">
+				<div class="w-16 aspect-square rounded-xl border-2 border-tertiary bg-white flex items-center justify-center custom-shadow-sm">
+					<img src="{% static 'images/logo.png' %}" alt="logo" class="w-10" />
+				</div>
+				<h2 class="text-2xl font-medium">Hi, {% if user %}{{ user.0.nama }}{% elif label %}{{ label.0.nama }}{% endif %}!</h2>
+			</div>
+			{% if user %}
+			<div class="bg-secondary rounded-xl px-8 py-12 font-medium flex flex-col space-y-4 custom-shadow">
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Name</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ user.0.nama }}</h3>
+				</div>
+			
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Email</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ user.0.email }}</h3>
+				</div>
+		
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Status Langganan</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ status_langganan }}</h3>
+				</div>
+			
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Domicile</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ user.0.kota_asal }}</h3>
+				</div>
+			
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Gender</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">
+					{% if user.0.gender == 1 %}
+						Laki-Laki
+					{% elif user.0.gender == 0 %}
+						Perempuan
+					{% endif %}
+					</h3>
+				</div>
+			
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Birth Place</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ user.0.tempat_lahir }}</h3>
+				</div>
+			
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Date of Birth</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ user.0.tanggal_lahir }}</h3>
+				</div>
+			
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Role</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ role }}</h3>
+				</div>
+			</div>
+			{% elif label %}
+			<div class="bg-secondary rounded-xl px-8 py-12 font-medium flex flex-col space-y-4 custom-shadow">
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Name</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ label.0.nama }}</h3>
+				</div>
+		
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Email</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ label.0.email }}</h3>
+				</div>
+		
+				<div class="flex items-end space-x-4">
+					<h3 class="whitespace-nowrap">Kontak</h3>
+					<div class="w-full h-px bg-neutral-900"></div>
+					<h3 class="whitespace-nowrap">{{ label.0.kontak }}</h3>
+				</div>
+			</div>
+			{% endif %}
 		</aside>
-
+		{% if request.session_is_pengguna_biasa%}
 		<div class="lg:col-span-2">
 			<div class="h-16 mb-8 flex items-end justify-center">
 				<h1 class="text-xl font-medium">Your Playlist</h1>
 			</div>
-
+		
 			<div class="bg-neutral-200 p-8 rounded-xl custom-shadow">
-				<div class="grid grid-cols-2 gap-8">
-					<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
-						<h4 class="text-center font-medium text-xl">Fall</h4>
-
-						<div class="flex items-end space-x-4">
-							<h3 class="whitespace-nowrap">Songs</h3>
-							<div class="w-full h-px bg-neutral-900"></div>
-							<h3 class="whitespace-nowrap">32</h3>
-						</div>
-
-						<div class="flex items-end space-x-4">
-							<h3 class="whitespace-nowrap">Duration</h3>
-							<div class="w-full h-px bg-neutral-900"></div>
-							<h3 class="whitespace-nowrap">1h 30m</h3>
-						</div>
+				{% if playlist %}
+					<div class="grid grid-cols-2 gap-8">
+						{% for item in playlist %}
+							<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
+								<h4 class="text-center font-medium text-xl">{{ item.judul }}</h4>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Songs</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.jumlah_lagu }}</h3>
+								</div>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Duration</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.total_durasi }}</h3>
+								</div>
+							</div>
+						{% endfor %}
 					</div>
-					<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
-						<h4 class="text-center font-medium text-xl">Summer</h4>
-
-						<div class="flex items-end space-x-4">
-							<h3 class="whitespace-nowrap">Songs</h3>
-							<div class="w-full h-px bg-neutral-900"></div>
-							<h3 class="whitespace-nowrap">32</h3>
-						</div>
-
-						<div class="flex items-end space-x-4">
-							<h3 class="whitespace-nowrap">Duration</h3>
-							<div class="w-full h-px bg-neutral-900"></div>
-							<h3 class="whitespace-nowrap">1h 30m</h3>
-						</div>
+				{% else %}
+					<div class="text-center">
+						<h3 class="text-xl font-medium">Belum Memiliki Playlist</h3>
 					</div>
-					<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
-						<h4 class="text-center font-medium text-xl">Winter</h4>
-
-						<div class="flex items-end space-x-4">
-							<h3 class="whitespace-nowrap">Songs</h3>
-							<div class="w-full h-px bg-neutral-900"></div>
-							<h3 class="whitespace-nowrap">32</h3>
-						</div>
-
-						<div class="flex items-end space-x-4">
-							<h3 class="whitespace-nowrap">Duration</h3>
-							<div class="w-full h-px bg-neutral-900"></div>
-							<h3 class="whitespace-nowrap">1h 30m</h3>
-						</div>
-					</div>
-					<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
-						<h4 class="text-center font-medium text-xl">Spring</h4>
-
-						<div class="flex items-end space-x-4">
-							<h3 class="whitespace-nowrap">Songs</h3>
-							<div class="w-full h-px bg-neutral-900"></div>
-							<h3 class="whitespace-nowrap">32</h3>
-						</div>
-
-						<div class="flex items-end space-x-4">
-							<h3 class="whitespace-nowrap">Duration</h3>
-							<div class="w-full h-px bg-neutral-900"></div>
-							<h3 class="whitespace-nowrap">1h 30m</h3>
-						</div>
-					</div>
-				</div>
+				{% endif %}
 			</div>
 		</div>
+		{%endif%}
+		{% if request.session.is_artist or request.session.is_songwriter%}
+		<div class="lg:col-span-2">
+			<div class="h-16 mb-8 flex items-end justify-center">
+				<h1 class="text-xl font-medium">Your Songs</h1>
+			</div>
+		
+			<div class="bg-neutral-200 p-8 rounded-xl custom-shadow">
+				{% if daftar_lagu %}
+					<div class="grid grid-cols-2 gap-8">
+						{% for item in daftar_lagu %}
+							<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
+								<h4 class="text-center font-medium text-xl">{{ item.judul }}</h4>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Total Plays</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.total_play }}</h3>
+								</div>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Total Downloads</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.total_download }}</h3>
+								</div>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Duration</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.durasi }} mins</h3>
+								</div>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Release Date</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.tanggal_rilis }}</h3>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				{% else %}
+					<div class="text-center">
+						<h3 class="text-xl font-medium">Belum Memiliki Lagu</h3>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		{% endif %}
+		
+		{% if request.session.is_podcaster%}
+		<div class="lg:col-span-2">
+			<div class="h-16 mb-8 flex items-end justify-center">
+				<h1 class="text-xl font-medium">Your Podcasts</h1>
+			</div>
+		
+			<div class="bg-neutral-200 p-8 rounded-xl custom-shadow">
+				{% if daftar_podcast %}
+					<div class="grid grid-cols-2 gap-8">
+						{% for item in daftar_podcast %}
+							<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
+								<h4 class="text-center font-medium text-xl">{{ item.judul }}</h4>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Total Plays</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.total_play }}</h3>
+								</div>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Total Downloads</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.total_download }}</h3>
+								</div>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Duration</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.durasi }} mins</h3>
+								</div>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Release Date</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.tanggal_rilis }}</h3>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				{% else %}
+					<div class="text-center">
+						<h3 class="text-xl font-medium">Belum Memiliki Podcast</h3>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		{%endif%}
+		{% if request.session.is_label %}
+		<div class="lg:col-span-2">
+			<div class="h-16 mb-8 flex items-end justify-center">
+				<h1 class="text-xl font-medium">Your Albums</h1>
+			</div>
+		
+			<div class="bg-neutral-200 p-8 rounded-xl custom-shadow">
+				{% if daftar_album %}
+					<div class="grid grid-cols-2 gap-8">
+						{% for item in daftar_album %}
+							<div class="bg-neutral-500 rounded-xl p-8 custom-shadow flex flex-col space-y-4 aspect-[4/3]">
+								<h4 class="text-center font-medium text-xl">{{ item.judul }}</h4>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Jumlah Lagu</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.jumlah_lagu }}</h3>
+								</div>
+		
+								<div class="flex items-end space-x-4">
+									<h3 class="whitespace-nowrap">Total Durasi</h3>
+									<div class="w-full h-px bg-neutral-900"></div>
+									<h3 class="whitespace-nowrap">{{ item.total_durasi }}</h3>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				{% else %}
+					<div class="text-center">
+						<h3 class="text-xl font-medium">Belum Memiliki Lagu</h3>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		{% endif %}
 	</div>
 {% endblock %}
