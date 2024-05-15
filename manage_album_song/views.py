@@ -102,7 +102,8 @@ def songs(request, id):
                 'is_artist' : True,
                 'is_songwriter' : False,
             },  
-            'songs':songs
+            'songs':songs,
+            'album_id':id
         }
     return render(request, 'list_song.html',context)
     if request.session['is_artist']:

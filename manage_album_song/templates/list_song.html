@@ -165,7 +165,7 @@
                     <td>{{song.total_play}}</td>
                     <td>{{song.total_download}}</td>
                     <td><button class="btn"><a href="#">Lihat Detail Lagu</a></button>
-                        <button class="btn"><a href="#">Hapus Lagu</a></button>
+                        <button class="btn"><a href="/manage_album_song/delete-song/{{song.id_konten}}?album_id={{album_id}}">Hapus Lagu</a></button>
                     </td>
                 </tr>
                 {%endfor%}

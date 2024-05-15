@@ -88,16 +88,16 @@
 
             {% if request.session.is_artist or request.session.is_songwriter %}
                 <div class="w-0.5 h-8 bg-tertiary"></div>
-                <a href="#" class="text-xl font-medium nav-link">Kelola Album & Songs</a>
+                <a href="{% url 'album' %}" class="text-xl font-medium nav-link">Kelola Album & Songs</a>
             {% endif %}
 
             {% if request.session.is_label %}
                 <div class="w-0.5 h-8 bg-tertiary"></div>
-    <a href="#" class="text-xl font-medium nav-link">Kelola Album</a>
+    <a href="{% url 'album' %}" class="text-xl font-medium nav-link">Kelola Album</a>
    {% endif %}
    {% if request.session.is_artist or request.session.is_songwriter or request.session.is_label %}
             <div class="w-0.5 h-8 bg-tertiary"></div>
-            <a href="#" class="text-xl font-medium nav-link">Cek Royalti</a>
+            <a href="{% url 'check_royalti' %}" class="text-xl font-medium nav-link">Cek Royalti</a>
    {% endif %}
 
    {% if request.session.is_pengguna_biasa %}
