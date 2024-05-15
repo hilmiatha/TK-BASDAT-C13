@@ -92,6 +92,8 @@ def songs(request, id):
     if request.session['is_label']:
         cursor.execute(get_song_konten_by_id_album(), [id])
         songs = parse(cursor)
+        cursor.execute(get_album_by_id(), [id])
+        album = parse(cursor)[0]
         context = {
             'is_logged_in' : True,
             'user_type_info'  : {
@@ -103,7 +105,8 @@ def songs(request, id):
                 'is_songwriter' : False,
             },  
             'songs':songs,
-            'album_id':id
+            'album_id':id,
+            'album':album
         }
     return render(request, 'list_song.html',context)
     if request.session['is_artist']:
