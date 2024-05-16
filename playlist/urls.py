@@ -10,4 +10,9 @@ urlpatterns = [
     path('hapus_playlist/<uuid:id_playlist>/', hapus_playlist, name='hapus_playlist'),
     path('show_song/<uuid:id_song>/', show_song_detailed, name='show_song'),
     path('add_song_to_playlist/<uuid:id_song>', add_song_to_playlist, name='add_song_to_playlist'),
+    path('hapus_lagu_dari_playlist/<uuid:id_playlist>/<uuid:id_lagu>/', hapus_lagu_dari_playlist, name='hapus_lagu_dari_playlist'),
+    path('download/<uuid:id_song>/', download_song, name='download_song'),
+    path('shuffle/<uuid:id_playlist>/', shuffle_play, name='shuffle_play'),
+    path('play/<uuid:id_playlist>/<uuid:id_song>', play_song, name='play_song'),
+
 ]
