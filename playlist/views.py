@@ -112,7 +112,7 @@ def show_ubah_playlist(request, id_playlist):
 
 ##### =============================== FITUR 2 ============================================
 
-def show_song_detailed(request,id_song='3b814ca4-20e2-4b82-ae7f-140bbf50536e'):
+def show_song_detailed(request,id_song):
     cursor = connection.cursor()
     cursor.execute(get_atribut_lagu_except_songwriter(id_song))
     res = parse(cursor)
