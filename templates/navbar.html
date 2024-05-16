@@ -61,7 +61,7 @@
     <div class="px-6 py-4 rounded-xl border-2 border-tertiary bg-gradient-to-r from-primary to-secondary flex items-center justify-between">
         <div class="flex items-center space-x-4">
    
-            {% if request.session.is_pengguna_biasa %}
+            {% if request.session.is_pengguna_biasa or request.session.is_label %}
                 <a href="{% url 'dashboard' %}" class="text-xl font-medium nav-link {% if request.path == '/dashboard/' %}opacity-50{% endif %}">Dashboard</a>
                 <div class="w-0.5 h-8 bg-tertiary"></div>
    {% else %}
@@ -100,14 +100,14 @@
             <a href="#" class="text-xl font-medium nav-link">Cek Royalti</a>
    {% endif %}
 
-   {% if request.session.is_pengguna_biasa %}
+   {% if request.session.is_pengguna_biasa or request.session.is_label %}
             <div class="w-0.5 h-8 bg-tertiary"></div>
             <a href="{% url 'logout' %}" class="text-xl font-medium nav-link">Logout</a>
    <div class="w-0.5 h-8 bg-tertiary"></div>
          {% endif %}
 
   </div>
-   {% if request.session.is_pengguna_biasa %}
+   {% if request.session.is_pengguna_biasa  %}
   <div class="flex items-right space-x-3 justify-end">
    <input type="text" placeholder="Search..." class="bg-neutral-500 px-4 py-2 rounded-lg text-white border-none focus:outline-none focus:ring-0 focus:border-none focus:shadow-none placeholder-neutral-400" />
    <button class="bg-neutral-500 px-3 py-2 rounded-lg text-white border-none" style="margin-left: 5px;"><i class="bi bi-search"></i></button>
