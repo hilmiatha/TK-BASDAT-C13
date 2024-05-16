@@ -281,7 +281,7 @@ input[type="radio"] {
             {% if request.session.is_artist %}
             <div class="input-group">
                 <span class="input-label"><strong>Artist: {{user.0.nama}}</strong></span>
-                <input type="hidden" name="id_artist" value="{{ user.0.id }}">
+                <input type="hidden" name="id_artist" value="{{ user_as_artist.0.id }}">
             </div>
             {% elif request.session.is_songwriter%}
             <div class="dropdown">
@@ -344,7 +344,7 @@ input[type="radio"] {
                         <td>{{album.label_name}}</td>
                         <td>{{album.jumlah_lagu}}</td>
                         <td>{{album.total_durasi}}</td>
-                        <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button>
+                        <td><button class="btn"><a href="{% url 'songs' id=album.id %}">Lihat Daftar Lagu</a></button>
                             <button class="btn"><a href="{% url 'songs' id=album.id %}">Tambah Lagu</a></button>
                             <button class="btn"><a href="{% url 'delete_album' id=album.id %}">Hapus Album</a></button>
                         </td>

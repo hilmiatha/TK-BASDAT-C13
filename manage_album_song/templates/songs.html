@@ -278,7 +278,7 @@
         {% if request.session.is_artist %}
         <div class="input-group">
             <span class="input-label"><strong>Artist: {{user.0.nama}}</strong></span>
-            <input type="hidden" name="id_artist" value="{{ user.0.id }}">
+            <input type="hidden" name="id_artist" value="{{ user_as_artist.0.id }}">
         </div>
         {% elif request.session.is_songwriter %}
         <div class="dropdown">
@@ -340,7 +340,7 @@
                     <td>{{song.durasi}} menit</td>
                     <td>{{song.total_play}}</td>
                     <td>{{song.total_download}}</td>
-                    <td><button class="btn"><a href="#">Lihat Detail Lagu</a></button>
+                    <td><button class="btn"><a href="{% url 'show_song' id_song=song.id_konten %}">Lihat Detail Lagu</a></button>
                         <button class="btn"><a href="/manage_album_song/delete-song/{{song.id_konten}}?album_id={{album_id}}">Hapus Lagu</a></button>
                     </td>
                 </tr>

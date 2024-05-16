@@ -9,12 +9,17 @@ from django.views.decorators.csrf import csrf_exempt
 def album(request):
     cursor = connection.cursor()
     if request.method == 'POST':
-        print(request.POST)
+        
         uuid = str(uuid4())
+        cursor.execute(get_artist_by_email(), [request.session['email']])
+    
         cursor.execute(create_album(), 
             [uuid, request.POST.get('judul'), str(request.POST.get('label'))])
         insert_song(request.POST.get('judul_lagu'), request.POST.get('duration'), request.POST.get('id_artist'), uuid, request.POST.getlist('songwriter'), request.POST.getlist('genre'))
     
+    user_as_artist = None
+    user_as_songwriter = None
+
     if request.session['is_label']:
         cursor.execute(get_label_by_email(), [request.session['email']])
         label = parse(cursor)[0]
@@ -38,10 +43,13 @@ def album(request):
         cursor.execute(get_album_by_artist(), [request.session['email']])
         albums_obj = parse(cursor)
         cursor.execute(get_artist_by_email(), [request.session['email']])
+        user_as_artist = parse(cursor)
     if request.session['is_songwriter']:
         cursor.execute(get_album_by_songwriter(), [request.session['email']])
         albums_obj = parse(cursor)
         cursor.execute(get_songwriter_by_email(), [request.session['email']])
+        user_as_songwriter = parse(cursor)
+    cursor.execute(get_akun_by_email(), [request.session['email']])
     user = parse(cursor)
     cursor.execute(get_all_labels())
     labels_obj = parse(cursor)
@@ -51,8 +59,6 @@ def album(request):
     songwriters_obj = parse(cursor)
     cursor.execute(get_all_genres())
     genres_obj = parse(cursor)
-    cursor.execute(get_all_akuns())
-    print(parse(cursor))
 
     context = {
         'is_logged_in' : True,
@@ -70,6 +76,8 @@ def album(request):
         'songwriters':songwriters_obj,
         'genres':genres_obj,
         'user':user,
+        'user_as_artist':user_as_artist,
+        'user_as_songwriter':user_as_songwriter
     }
     return render(request, 'album.html',context)
 
@@ -89,6 +97,8 @@ def songs(request, id):
         print(request.POST)
         insert_song(request.POST.get('judul'), request.POST.get('duration'), request.POST.get('id_artist'), id, request.POST.getlist('songwriter'), request.POST.getlist('genre'))
     
+    user_as_artist = None
+    user_as_songwriter = None
     if request.session['is_label']:
         cursor.execute(get_song_konten_by_id_album(), [id])
         songs = parse(cursor)
@@ -108,15 +118,18 @@ def songs(request, id):
             'album_id':id,
             'album':album
         }
-    return render(request, 'list_song.html',context)
+        return render(request, 'list_song.html',context)
     if request.session['is_artist']:
         cursor.execute(get_album_by_artist(), [request.session['email']])
         albums_obj = parse(cursor)
         cursor.execute(get_artist_by_email(), [request.session['email']])
+        user_as_artist = parse(cursor)
     if request.session['is_songwriter']:
         cursor.execute(get_album_by_songwriter(), [request.session['email']])
         albums_obj = parse(cursor)
         cursor.execute(get_songwriter_by_email(), [request.session['email']])
+        user_as_songwriter = parse(cursor)
+    cursor.execute(get_akun_by_email(), [request.session['email']])
     user = parse(cursor)
     cursor.execute(get_album_by_id(), [id])
     album = parse(cursor)[0]
@@ -128,7 +141,6 @@ def songs(request, id):
     genres_obj = parse(cursor)
     cursor.execute(get_song_konten_by_id_album(), [id])
     songs = parse(cursor)
-
     context = {
         'is_logged_in' : True,
         'user_type_info'  : {
@@ -146,5 +158,7 @@ def songs(request, id):
         'songwriters':songwriters_obj,
         'genres':genres_obj,
         'songs':songs,
+        'user_as_artist':user_as_artist,
+        'user_as_songwriter':user_as_songwriter
     }
     return render(request, 'songs.html',context)

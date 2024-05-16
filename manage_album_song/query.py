@@ -71,6 +71,12 @@ def assign_songwriter():
         VALUES (%s, %s)
     """
 
+def get_akun_by_email():
+    return """
+        SELECT * FROM AKUN
+        WHERE email = %s
+    """
+
 def create_konten():
     return """
         INSERT INTO KONTEN (id, judul, tanggal_rilis, tahun, durasi)

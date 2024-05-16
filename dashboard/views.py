@@ -44,7 +44,15 @@ def dashboard(request):
         label = parse(cursor)
         cursor.execute(get_album_by_id_label(), [label[0].get('id')])
         daftar_album.extend(parse(cursor))
-    
+    seen = set()
+    unique_daftar_lagu = []
+    for item in daftar_lagu:
+        # Consider the item 'id' or another unique identifier for hashing
+        identifier = item.get('id_konten')  # Assuming 'id' is a unique field in the dictionary
+        if identifier not in seen:
+            seen.add(identifier)
+            unique_daftar_lagu.append(item)
+    daftar_lagu = unique_daftar_lagu
     context = {
         'is_logged_in' : True,
         'user_type_info'  : {
