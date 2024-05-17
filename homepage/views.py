@@ -7,18 +7,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def homepage_view(request):
-    # context = {
-    #     'is_logged_in' : False,
-    #     'user_type_info'  : {
-    #         'is_pengguna_biasa' : False,
-    #         'is_premium' : False,
-    #         'is_label' : False,
-    #         'is_podcaster' : False,
-    #         'is_artist' : False,
-    #         'is_songwriter' : False,
-    #     },  
-    # }
+    if 'email' in request.session:
+        return redirect('/dashboard/dashboard')
     return render(request, 'homepage.html')
+
 
 
 @csrf_exempt
