@@ -140,7 +140,7 @@
 
 {% block content %}
 
-{% include 'navbar.html' %}
+{% comment %} {% include 'navbar.html' %} {% endcomment %}
 
 <div class="centered-container">
     <div class="card">
@@ -157,22 +157,17 @@
                 </tr>
             </thead>
             <tbody>
+                {% for album in albums %}
                 <tr>
-                    <td>Album1</td>
-                    <td>0</td>
-                    <td>30 menit</td>
+                    <td>{{album.judul}}</td>
+                    <td>{{album.jumlah_lagu}}</td>
+                    <td>{{album.total_durasi}} menit</td>
                     <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button>
-                        <button class="btn"><a href="#">Hapus Album</a></button>
-                    </td>
+                        <button class="btn"><a href="{% url 'delete_album' id=album.id %}">Hapus Album</a></button>
+                    </td>10
                 </tr>
-                <tr>
-                    <td>Album2</td>
-                    <td>3</td>
-                    <td>40 menit</td>
-                    <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button>
-                        <button class="btn"><a href="#">Hapus Album</a></button>
-                    </td>
-                </tr>
+                {% endfor %}
+                
                 <!-- More rows can be added here -->
             </tbody>
         </table>

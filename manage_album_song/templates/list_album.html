@@ -144,31 +144,29 @@
 
 <div class="centered-container">
     <div class="card">
-        <h1>DAFTAR LAGU PADA ALBUM 1</h1>
+        <h1>LIST ALBUM</h1>
         <hr>
         <br>
         <table>
             <thead>
                 <tr>
                     <th>Judul</th>
-                    <th>Durasi</th>
-                    <th>Total Play</th>
-                    <th>Total Download</th>
+                    <th>Jumlah Lagu</th>
+                    <th>Total Durasi</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                {% for song in songs %}
+                {% for album in albums %}
                 <tr>
-                    <td>{{song.judul}}</td>
-                    <td>{{song.durasi}} menit</td>
-                    <td>{{song.total_play}}</td>
-                    <td>{{song.total_download}}</td>
-                    <td><button class="btn"><a href="#">Lihat Detail Lagu</a></button>
-                        <button class="btn"><a href="#">Hapus Lagu</a></button>
+                    <td>{{album.judul}}</td>
+                    <td>{{album.jumlah_lagu}}</td>
+                    <td>{{album.total_durasi}} menit</td>
+                    <td><button class="btn"><a href="{% url 'songs' id=album.id %}">Lihat Daftar Lagu</a></button>
+                        <button class="btn"><a href="{% url 'delete_album' id=album.id %}">Hapus Album</a></button>
                     </td>
                 </tr>
-                {%endfor%}
+                {% endfor %}
                 
                 <!-- More rows can be added here -->
             </tbody>
