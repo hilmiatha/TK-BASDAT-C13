@@ -9,7 +9,7 @@ def create_transaction(id_transaksi, jenis_paket, email, timestamp_dimulai, time
     ('{id_transaksi}','{jenis_paket}','{email}','{timestamp_dimulai}','{timestamp_berakhir}','{metode_bayar}',{nominal});"""
 
 def get_riwayat_transaksi(email):
-    return f"""SELECT * FROM TRANSACTION WHERE email = '{email}';"""
+    return f"""SELECT * FROM TRANSACTION WHERE email = '{email}' ORDER BY timestamp_dimulai DESC;"""
 
 def add_one_month():
     return """SELECT NOW() + INTERVAL '1 month'"""
