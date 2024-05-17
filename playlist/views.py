@@ -206,7 +206,7 @@ def download_song(request, id_song):
         context.update({
             'result_message': f'Berhasil mengunduh Lagu dengan judul "{get_song_title(id_song)}"!',
             'download_success': True,
-            # 'download_list_url': reverse('#'), ##BELOM NUNGGU FITUR DOWNLOADED LIST
+            'download_list_url': reverse('downloaded_songs'), ##BELOM NUNGGU FITUR DOWNLOADED LIST
         })
     except DatabaseError as e:
         if 'Lagu sudah pernah diunduh' in str(e):
