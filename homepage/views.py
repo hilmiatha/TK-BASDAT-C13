@@ -33,6 +33,7 @@ def show_login(request):
         res = parse(cursor)
         cursor.execute(cek_label(email, pw))
         res2 = parse(cursor)
+        cursor.execute("CALL check_and_update_subscription_status(%s)", [email])
         if len(res) == 0 and len(res2) == 0:
             return render(request, 'login.html', {'error_message': 'Email atau password salah'})
         elif len(res) >= 1:
