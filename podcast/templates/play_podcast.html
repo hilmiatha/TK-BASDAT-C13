@@ -140,20 +140,18 @@
 
 {% block content %}
 
-{% include 'navbar.html' %}
-
 <div class="centered-container">
     <div class="card">
         <h1>PODCAST DETAIL</h1>
         <br>
-        <p><strong>Judul:</strong> How to Make a Coffee</p>
-        <p><strong>Genre(s):</strong> Cooking, Informational</p>
-        <p><strong>Podcaster :</strong> Ahmad</p>
-        <p><strong>Total durasi :</strong> 8 Jam 20 Menit</p>
-        <p><strong>Tanggal rilis :</strong> 18/03/2024</p>
-        <p><strong>Tahun :</strong> 2024</p>
+        <p><strong>Judul:</strong> {{ info_podcast.judul }}</p>
+        <p><strong>Genre(s):</strong> {{ genre | join:", " }}</p>
+        <p><strong>Podcaster :</strong> {{ info_podcast.nama }}</p>
+        <p><strong>Total durasi :</strong> {{ info_podcast.durasi }}</p>
+        <p><strong>Tanggal rilis :</strong> {{ info_podcast.tanggal_rilis }}</p>
+        <p><strong>Tahun :</strong> {{ info_podcast.tahun }}</p>
         <br>
-        <button class="btn"><a href="#">Kembali</a></button>
+        <a href="#" class="btn" onclick="history.back(); return false;">Kembali</a>
         <br>
         <hr>
         <h1>DAFTAR EPISODE</h1>
@@ -167,19 +165,14 @@
                 </tr>
             </thead>
             <tbody>
+                {% for episode in episodes %}
                 <tr>
-                    <td>Subjudul1</td>
-                    <td>Lorem Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
-                    <td>59 menit</td>
-                    <td>18/03/2024</td>
+                    <td>{{ episode.judul }}</td>
+                    <td>{{ episode.deskripsi }}</td>
+                    <td>{{ episode.durasi }}</td>
+                    <td>{{ episode.tanggal }}</td>
                 </tr>
-                <tr>
-                    <td>Subjudul2</td>
-                    <td>Lorem Ipsum ...</td>
-                    <td>1 jam 2 menit</td>
-                    <td>25/03/2024</td>
-                </tr>
-                <!-- More rows can be added here -->
+                {% endfor %}
             </tbody>
         </table>
     </div>

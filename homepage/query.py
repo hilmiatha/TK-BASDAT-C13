@@ -12,11 +12,11 @@ def cek_premium(email):
         where email = '{email}';
     """
     
-def cek_label(email):
+def cek_label(email, password):
     return f"""
         SELECT * 
         from label
-        where email = '{email}';
+        where email = '{email}' and password = '{password}';
     """
 
 def cek_podcaster(email):

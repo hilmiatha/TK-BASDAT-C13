@@ -1,6 +1,6 @@
 from uuid import uuid4
 from django.shortcuts import redirect, render
-from django.db import connection
+from django.db import DatabaseError, IntegrityError, connection
 from homepage.query import *
 from utils import parse
 from django.views.decorators.csrf import csrf_exempt
@@ -26,12 +26,16 @@ def show_login(request):
     if request.method == 'POST':
         pw = request.POST.get('password')
         email = request.POST.get('email')
+        if not pw or not email:
+            return render(request, 'login.html', {'error_message': 'Email atau password tidak boleh kosong'})
         cursor = connection.cursor()
         cursor.execute(cek_user(email, pw))
         res = parse(cursor)
-        if len(res) == 0:
+        cursor.execute(cek_label(email, pw))
+        res2 = parse(cursor)
+        if len(res) == 0 and len(res2) == 0:
             return render(request, 'login.html', {'error_message': 'Email atau password salah'})
-        else:
+        elif len(res) >= 1:
             request.session['email'] = email
             request.session['is_pengguna_biasa'] = True
             request.session['is_premium'] = False
@@ -44,9 +48,6 @@ def show_login(request):
             if len(parse(cursor)) > 0:
                 request.session['is_premium'] = True
                 
-            cursor.execute(cek_label(email))
-            if len(parse(cursor)) > 0:
-                request.session['is_label'] = True
             
             cursor.execute(cek_podcaster(email))
             if len(parse(cursor)) > 0:
@@ -61,15 +62,29 @@ def show_login(request):
                 request.session['is_songwriter'] = True
             
             return redirect('/dashboard/dashboard')
-                
-            
-    
+        else:
+            cursor.execute(cek_label(email, pw))
+            if len(parse(cursor))  == 0:
+                return render(request, 'login.html', {'error_message': 'Email atau password salah'})
+            else:
+                request.session['email'] = email
+                request.session['is_pengguna_biasa'] = False
+                request.session['is_premium'] = False
+                request.session['is_label'] = True
+                request.session['is_podcaster'] = False
+                request.session['is_artist'] = False
+                request.session['is_songwriter'] = False
+                return redirect('/dashboard/dashboard')
+
+
     return render(request, 'login.html')
 
 
 @csrf_exempt
 def show_register(request):
     return render(request, 'register.html')
+
+
 
 @csrf_exempt
 def show_register_pengguna(request):
@@ -84,15 +99,8 @@ def show_register_pengguna(request):
         role_podcaster = request.POST.get('is_podcaster') == 'podcaster'
         role_artist = request.POST.get('is_artist') == 'artist'
         role_songwriter = request.POST.get('is_songwriter') == 'songwriter'
-        
-        print(role_podcaster, role_artist, role_songwriter)
-
-        cursor = connection.cursor()
-
-        # Check if the email already exists
-        cursor.execute("SELECT email FROM akun WHERE email = %s", [email])
-        if cursor.fetchone():
-            return render(request, 'register_pengguna.html', {'error_message': 'Email already exists'})
+        if not password or not email or not name or not birthplace or not birthdate or not city:
+            return render(request, 'register_pengguna.html', {'error_message': 'Field tidak boleh kosong'})
         
         roles = []
         if role_podcaster:
@@ -102,42 +110,60 @@ def show_register_pengguna(request):
         if role_songwriter:
             roles.append('songwriter')
         
-        if roles:
-            verification_status = True
-        else:
-            verification_status = False
+        verification_status = bool(roles)
         
-        # Insert the new user into the database
-        cursor.execute(
-            "INSERT INTO akun (email, password, nama, gender, tempat_lahir, tanggal_lahir, is_verified, kota_asal) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-            [email, password, name, gender, birthplace, birthdate, verification_status, city]
-        )
+        cursor = connection.cursor()
 
-        # Determine role and verification status
-        if role_podcaster:
-            cursor.execute("INSERT INTO podcaster (email) VALUES (%s)", [email])
+        try:
+            # Insert the new user into the database
+            cursor.execute(
+                "INSERT INTO akun (email, password, nama, gender, tempat_lahir, tanggal_lahir, is_verified, kota_asal) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                [email, password, name, gender, birthplace, birthdate, verification_status, city]
+            )
+
+            # Determine role and verification status
+            if role_podcaster:
+                cursor.execute("INSERT INTO podcaster (email) VALUES (%s)", [email])
+                request.session['is_podcaster'] = True
+            else:
+                request.session['is_podcaster'] = False
+            if role_artist:
+                uuid = str(uuid4())
+                cursor.execute("INSERT INTO artist (id, email_akun) VALUES (%s, %s)", [uuid, email])
+                request.session['is_artist'] = True
+            else:
+                request.session['is_artist'] = False
+            if role_songwriter:
+                uuid = str(uuid4())
+                cursor.execute("INSERT INTO songwriter (id, email_akun) VALUES (%s, %s)", [uuid, email])
+                request.session['is_songwriter'] = True
+            else:
+                request.session['is_songwriter'] = False
+            
+            connection.commit()
+
+        except DatabaseError as e: 
+            # Handle the email already exists exception
+            if (f'Email {email} already exists!' in str(e) ):
+                return render(request, 'register_pengguna.html', {'error_message': 'Email already exists'})
+        
+        uuid_hak_cipta = str(uuid4())
+        rate_royalti = 50000
+        cursor.execute("INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES (%s, %s)", [uuid_hak_cipta, rate_royalti])
+        
+        
         if role_artist:
-            uuid = str(uuid4())
-            cursor.execute("INSERT INTO artist (id, email_akun) VALUES (%s, %s)", [uuid, email])
+            cursor.execute("UPDATE artist SET id_pemilik_hak_cipta = %s WHERE email_akun = %s", [uuid_hak_cipta, email])
         if role_songwriter:
-            uuid = str(uuid4())
-            cursor.execute("INSERT INTO songwriter (id, email_akun) VALUES (%s, %s)", [uuid, email])
-        
-      
-        #insert nonpremium
-        cursor.execute("INSERT INTO nonpremium (email) VALUES (%s)", [email])
-
-        
-        connection.commit()
+            cursor.execute("UPDATE songwriter SET id_pemilik_hak_cipta = %s WHERE email_akun = %s", [uuid_hak_cipta, email])
 
         # Set session variables
         request.session['email'] = email
-        request.session['is_verified'] = (verification_status == 'Verified')
+        request.session['is_verified'] = verification_status
         request.session['is_premium'] = False
         request.session['is_pengguna_biasa'] = True
         request.session['is_label'] = False
-        for role in roles:
-            request.session[f'is_{role}'] = True
+        
 
         return redirect('/dashboard/dashboard')
 
@@ -151,22 +177,30 @@ def show_register_label(request):
         password = request.POST.get('password')
         name = request.POST.get('name')
         contact = request.POST.get('contact')
+        if not password or not email or not name or not name or not contact:
+            return render(request, 'register_label.html', {'error_message': 'Field tidak boleh kosong'})
         
         cursor = connection.cursor()
 
-        # Check if the email already exists in the database
-        cursor.execute("SELECT * FROM label WHERE email = %s", [email])
-        if cursor.fetchone():
-            return render(request, 'register_label.html', {'error_message': 'Email already exists'})
+        try:
+            # Insert the new label into the database
+            uuid = str(uuid4())
+            cursor.execute("INSERT INTO label (id, email, password, nama, kontak) VALUES (%s, %s, %s, %s, %s)", [uuid, email, password, name, contact])
+            connection.commit()
 
-        # Insert the new label into the database
-        uuid = str(uuid4())
-        cursor.execute("INSERT INTO label (id, email, password, nama, kontak) VALUES (%s, %s, %s, %s, %s)", [uuid, email, password, name, contact])
-        connection.commit()
+        except DatabaseError as e:
+            # Handle the email already exists exception
+            if (f'Email {email} already exists!' in str(e) ):
+                return render(request, 'register_label.html', {'error_message': 'Email already exists'})
+        
+        uuid_hak_cipta = str(uuid4())
+        rate_royalti = 50000
+        cursor.execute("INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES (%s, %s)", [uuid_hak_cipta, rate_royalti])
+        cursor.execute("UPDATE label SET id_pemilik_hak_cipta = %s WHERE id = %s", [uuid_hak_cipta, uuid])
 
         # Automatically log in the label or redirect to login page
         request.session['email'] = email
-        request.session['is_pengguna_biasa'] = True
+        request.session['is_pengguna_biasa'] = False
         request.session['is_premium'] = False
         request.session['is_label'] = True
         request.session['is_podcaster'] = False

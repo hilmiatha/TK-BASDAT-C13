@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Result</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #F4EFEA; /* Light cream background */
+    }
+    .centered-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .card {
+        background: #FFF8F0; /* Light sandy color */
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 80%;
+        max-width: 600px;
+        margin: 20px;
+        text-align: center;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #D7CCC8; /* Light brown */
+        color: #5D4037; /* Dark brown */
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .btn:hover {
+        background-color: #A1887F; /* Darker brown */
+        color: #FFF;
+    }
+</style>
+{% endblock meta %}
+
+{% block content %}
+<div class="centered-container">
+    <div class="card">
+        <h2>{{ result_message }}</h2>
+        {% if success %}
+            <a href="{{ playlist_url }}" class="btn">Ke Playlist</a>
+        {% else %}
+            <a href="{% url 'add_song_to_playlist' id_song=song_info.id_konten %}" class="btn">Coba lagi</a>
+        {% endif %}
+        <a href="{% url 'show_song' id_song=song_info.id_konten %}" class="btn">Kembali ke Song</a>
+    </div>
+</div>
+{% endblock content %}
