@@ -24,7 +24,7 @@ urlpatterns = [
     path('dashboard/', include('dashboard.urls')),
     path('download/', include('download.urls')),
     path('manage_album_song/', include('manage_album_song.urls')),
-    path('playlist/', include('playlist.urls', namespace='playlist')),
+    path('playlist/', include('playlist.urls')),
     path('podcast/', include('podcast.urls')),
     path('royalti/', include('royalti.urls')),
     path('search/', include('search.urls')),

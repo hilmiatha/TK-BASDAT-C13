@@ -145,6 +145,7 @@
         <h1>CHART DETAIL</h1>
         <br>
         <h1>Tipe : {{ chart.0.tipe }}</h1>
+        <a href="#" class="btn" onclick="history.back(); return false;">Kembali</a>
         <br>
         <hr>
         <h1>DAFTAR LAGU</h1>
@@ -166,7 +167,7 @@
                     <td>{{ song.tanggal_rilis }}</td>
                     <td>{{ song.total_plays }}</td>
                     <td>
-                        <button class="btn"><a href="{% url 'playlist:show_song' id_song=song.id_konten %}">Lihat Lagu</a></button>
+                        <button class="btn"><a href="{% url 'show_song' id_song=song.id_konten %}">Lihat Lagu</a></button>
                     </td>
                 </tr>
                 {% endfor %}
