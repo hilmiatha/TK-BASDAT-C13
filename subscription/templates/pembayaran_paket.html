@@ -53,35 +53,79 @@
 {% block content %}
 <div class="container justify-content-center d-flex"">
     <div class="card">
-        <table class="" style="margin-bottom: 5%; border-color: black;">
-            <thead>
-                <tr>
-                  <th scope="col" style="text-align: center;">PEMBAYARAN PAKET</th>
-            </thead>
-        </table>
-        <table class="table" style="margin-bottom: 5%;margin-top: 5%; border: 2px solid black;">
-            <thead>
-                <tr>
-                  <th scope="col">Jenis</th>
-                  <th scope="col">Harga</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1 Bulan</td>
-                    <td>Rp54.000</td>
-                <tr>
-            </tbody>
-        </table>
-        <select class="form-select" aria-label="Default select example" style="margin-top: 5%; width: 70%;">
-            <option selected disabled>Choose Payment Method</option>
-            <option value="1">Transfer Bank</option>
-            <option value="2">Credit Card</option>
-            <option value="3">E-Wallet</option>
-        </select>
-        <div class="container justify-content-center d-flex">
-            <button class="btn" style="width: 60%; margin-top: 10%;">Pay</button>
+        <form method="post" action="{% url 'pay_paket' %}">
+            {% csrf_token %}
+            {% for item in paket %}
+            <table class="" style="margin-bottom: 5%; border-color: black;">
+                <thead>
+                    <tr>
+                      <th scope="col" style="text-align: center;">PEMBAYARAN PAKET</th>
+                </thead>
+            </table>
+            <table class="table" style="margin-bottom: 5%;margin-top: 5%; border: 2px solid black;">
+                <thead>
+                    <tr>
+                      <th scope="col">Jenis</th>
+                      <th scope="col">Harga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td value="{{ item.jenis }}" name="jenis">{{ item.jenis }}</td>
+                        <td value="{{ item.harga }}" name="harga">{{ item.harga }}</td>
+                    <tr>
+                </tbody>
+            </table>
+            <select class="form-select"  name="metode_bayar" aria-label="Default select example" style="margin-top: 5%; width: 70%;">
+                <option selected disabled>Choose Payment Method</option>
+                {% for metode in metode_bayar %}
+                <option value="{{ metode }}">{{ metode }}</option>
+                {% endfor %}
+            </select>
+            <div class="container justify-content-center d-flex">
+                <button type="submit" class="btn" style="width: 60%; margin-top: 10%;">Pay</button>
+            </div>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+
+{% if payment_status %}
+<!-- Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Payment Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if payment_status == 'success' %}
+                Berhasil membeli paket langganan
+                {% elif payment_status == 'failure' %}
+                Pembelian paket gagal.
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
+{% endif %}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var paymentStatus = document.getElementById('paymentStatus');
+        var status = paymentStatus.getAttribute('data-status');
+        if (status === 'success') {
+            var paymentModal = document.getElementById('paymentModal');
+            var myModal = new bootstrap.Modal(paymentModal);
+            myModal.show();
+        }
+    });
+</script>
 {% endblock content %}

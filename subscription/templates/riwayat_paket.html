@@ -70,31 +70,19 @@
                 </tr>
             </thead>
             <tbody>
+                {% for riwayat in riwayat_transaksi %}
                 <tr>
-                    <td>1 Bulan</td>
-                    <td>8 April 2024, 23:00</td>
-                    <td>8 Mei 2024, 23:00</td>
-                    <td>E-Wallet</td>
-                    <td>Rp54.900</td>
+                    <td>{{ riwayat.jenis_paket }}</td>
+                    <td>{{ riwayat.timestamp_dimulai }}</td>
+                    <td>{{ riwayat.timestamp_berakhir }}</td>
+                    <td>{{ riwayat.metode_bayar }}</td>
+                    <td>{{ riwayat.nominal }}</td>
                 <tr>
-                <tr>
-                    <td>3 Bulan</td>
-                    <td>10 April 2024, 23:00</td>
-                    <td>10 Juli 2024, 23:00</td>
-                    <td>Transfer Bank</td>
-                    <td>Rp84.000</td>
-                <tr>
-                <tr>
-                    <td>6 Bulan</td>
-                    <td>11 April 2024, 23:00</td>
-                    <td>11 Oktober 2024, 23:00</td>
-                    <td>E-Wallet</td>
-                    <td>Rp100.000</td>
-                <tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="container justify-content-center d-flex">
-            <button class="btn" style="width: 20%; margin-top: 5%;">Back</button>
+            <a class="btn" style="width: 20%; margin-top: 5%;" href="{% url 'langganan_paket' %}">Back</a>
         </div>
     </div>
 </div>
