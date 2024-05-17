@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.w-content {
+		@apply container mx-auto px-6;
+	}
+
+	.rounded-extra {
+		@apply rounded-[40px];
+	}
+
+	.custom-label {
+		@apply block font-medium text-neutral-700 sr-only;
+	}
+
+	.custom-input {
+		@apply w-full bg-neutral-200 rounded-xl border-none py-3 px-6 text-neutral-700 placeholder-neutral-500 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none;
+	}
+
+	.custom-button {
+		@apply bg-neutral-200 rounded-xl border-none py-3 px-6 font-medium focus:outline-none focus:ring-0 focus:border-none focus:shadow-none;
+	}
+
+	.radio-input {
+		@apply h-10 aspect-square w-10 rounded-xl bg-neutral-200 border-2 border-neutral-300 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none checked:bg-primary focus:checked:bg-primary;
+	}
+
+	.custom-shadow {
+		filter: drop-shadow(10px 10px 1px rgba(0, 0, 0, 0.25));
+	}
+
+	.custom-shadow-sm {
+		filter: drop-shadow(5px 5px 1px rgba(0, 0, 0, 0.25));
+	}
+}
