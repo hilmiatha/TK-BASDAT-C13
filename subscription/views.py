@@ -82,11 +82,11 @@ def pay_paket(request):
                 nominal = cursor.fetchone()[0]
             
             cursor.execute(create_transaction(id_transaksi, jenis, request.session['email'], timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal))
-            transaction.commit()
+            connection.commit()
             request.session['is_premium'] = True
             return JsonResponse({'success': True, 'message': 'Pembelian paket berhasil'})
         except DatabaseError as e:
             print(f"Database error occurred: {e}")
-            transaction.rollback()
+            connection.rollback()
             return JsonResponse({'success': False, 'message': 'Pembelian paket gagal'})
 
