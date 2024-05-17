@@ -14,5 +14,4 @@ urlpatterns = [
     path('download/<uuid:id_song>/', download_song, name='download_song'),
     path('shuffle/<uuid:id_playlist>/', shuffle_play, name='shuffle_play'),
     path('play/<uuid:id_playlist>/<uuid:id_song>', play_song, name='play_song'),
-
 ]

@@ -69,23 +69,23 @@
             {% endif %}
 
             {% if request.session.is_pengguna_biasa or request.session.is_artist or request.session.is_songwriter or request.session.is_podcaster %}
-                <a href="#" class="text-xl font-medium nav-link">Charts</a>
+                <a href="{% url 'see_chart' %}" class="text-xl font-medium nav-link">Charts</a>
                 <div class="w-0.5 h-8 bg-tertiary"></div>
                 <a href="{% url 'show_playlist' %}" class="text-xl font-medium nav-link">Kelola Playlist</a>
                 {% if not request.session.is_premium %}
                 <div class="w-0.5 h-8 bg-tertiary"></div>
-                <a href="#" class="text-xl font-medium nav-link">Langganan Paket</a>
+                <a href="{% url 'langganan_paket' %}" class="text-xl font-medium nav-link">Langganan Paket</a>
                 {% endif %}
             {% endif %}
 
             {% if request.session.is_premium %}
                 <div class="w-0.5 h-8 bg-tertiary"></div>
-                <a href="#" class="text-xl font-medium nav-link">Kelola Downloaded Songs</a>
+                <a href="{% url 'downloaded_songs' %}" class="text-xl font-medium nav-link">Kelola Downloaded Songs</a>
             {% endif %}
 
             {% if request.session.is_podcaster %}
                 <div class="w-0.5 h-8 bg-tertiary"></div>
-                <a href="#" class="text-xl font-medium nav-link">Kelola Podcast</a>
+                <a href="{% url 'manage_podcast' %}" class="text-xl font-medium nav-link">Kelola Podcast</a>
             {% endif %}
 
             {% if request.session.is_artist or request.session.is_songwriter %}
@@ -111,8 +111,10 @@
   </div>
    {% if request.session.is_pengguna_biasa  %}
   <div class="flex items-right space-x-3 justify-end">
-   <input type="text" placeholder="Search..." class="bg-neutral-500 px-4 py-2 rounded-lg text-white border-none focus:outline-none focus:ring-0 focus:border-none focus:shadow-none placeholder-neutral-400" />
-   <button class="bg-neutral-500 px-3 py-2 rounded-lg text-white border-none" style="margin-left: 5px;"><i class="bi bi-search"></i></button>
+    <form action="{% url 'hasil_pencarian' %}" method="get" class="flex items-center">
+        <input type="text" name="query" placeholder="Search..." class="bg-neutral-500 px-4 py-2 rounded-lg text-white border-none focus:outline-none focus:ring-0 focus:border-none focus:shadow-none placeholder-neutral-400" />
+        <button type="submit" class="bg-neutral-500 px-3 py-2 rounded-lg text-white border-none" style="margin-left: 5px;"><i class="bi bi-search"></i></button>
+    </form>
   </div>
   {% endif %}
   
