@@ -78,7 +78,7 @@
 
             {% if request.session.is_premium %}
                 <div class="w-0.5 h-8 bg-tertiary"></div>
-                <a href="#" class="text-xl font-medium nav-link">Kelola Downloaded Songs</a>
+                <a href="{% url 'downloaded_songs' %}" class="text-xl font-medium nav-link">Kelola Downloaded Songs</a>
             {% endif %}
 
             {% if request.session.is_podcaster %}
