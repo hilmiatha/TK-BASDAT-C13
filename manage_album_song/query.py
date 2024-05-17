@@ -157,7 +157,7 @@ def insert_song(judul, durasi, id_artist, id_album, songwriters, genres):
     cursor = connection.cursor()
     uuid_konten = str(uuid4())
     current_date = datetime.date.today()
-    cursor.execute(create_konten(), [uuid_konten, judul, current_date, current_date.year, durasi])
+    cursor.execute(create_konten(), [uuid_konten, judul, current_date, current_, durasi])
 
     cursor.execute(create_song(), [uuid_konten, id_artist, id_album])
 

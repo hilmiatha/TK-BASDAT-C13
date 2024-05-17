@@ -5,15 +5,7 @@ from .query import *
 from utils import parse
 from django.views.decorators.csrf import csrf_exempt
 
-
-# Create your views here.
-# def see_chart(request):
-#     return render(request, 'see_chart.html')
-
-
-# def see_songs_chart(request):
-#     return render(request, 'see_songs_chart.html')
-
+@csrf_exempt
 def see_chart(request):
     cursor = connection.cursor()
     cursor.execute(get_charts())
@@ -23,6 +15,7 @@ def see_chart(request):
     }
     return render(request, 'see_chart.html',context)
 
+@csrf_exempt
 def see_songs_chart(request, id_playlist):
     cursor = connection.cursor()
     cursor.execute(get_songs_chart(id_playlist))

@@ -268,18 +268,21 @@
                 <label for="judul">Judul:</label>
                 <input type="text" id="judul" name="judul" placeholder="Masukkan judul podcast" class="form-control" required>
             </div>
-            <div class="form-group">
-                <label for="genres">Genre:</label>
-                <select id="genres" name="genres" class="form-control" multiple>
+            <div class="dropdown">
+                <span class="genre-label"><strong>Genre:</strong></span>
+                <div id="dropdown-content-genre" class="dropdown-content">
                     {% for genre in genres %}
-                        <option value="{{ genre.genre }}">{{ genre.genre }}</option>
+                        <label for="genre{{ genre.genre }}">{{ genre.genre }}</label>
+                        <input type="checkbox" id="genre{{ genre.genre }}" name="genre" value="{{ genre.genre}}">
                     {% endfor %}
-                </select>
+                </div>
             </div>
+            <button onclick="toggleDropdown('dropdown-content-genre')" type="button" class="dropbtn">Select Genre</button>
             <input type="submit" value="SUBMIT" class="btn">
         </form>
         <br>
         <hr>
+        {% if podcasts %}
         <h1>LIST PODCAST</h1>
         <table>
             <thead>
@@ -296,31 +299,40 @@
                     <td>{{ podcast.judul }}</td>
                     <td>{{ podcast.jumlah_episode }}</td>   
                     <td>{{ podcast.durasi }}</td>                   
-                    <td><button class="btn"><a href="#">Lihat Daftar Episode</a></button>
-                        <button class="btn"><a href="#">Tambah Episode</a></button>
-                        <button class="btn"><a href="#">Hapus Podcast</a></button>
+                    <td><button class="btn"><a href="{% url 'play_podcast' id_podcast=podcast.id %}">Lihat Daftar Episode</a></button>
+                        <button class="btn"><a href="{% url 'manage_episode' id_podcast=podcast.id %}">Tambah Episode</a></button>
+                        <button class="btn"><a href="{% url 'hapus_podcast' id_podcast=podcast.id %}">Hapus Podcast</a></button>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <h1>Anda tidak memiliki podcast</h>
+        {% endif %}
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var genresSelect = document.getElementById('genres');
-        genresSelect.addEventListener('mousedown', function(e) {
-            e.preventDefault();
-            var select = this;
-            var scroll = select.scrollTop;
+    function toggleDropdown(contentId) {
+        var dropdownContent = document.getElementById(contentId);
+        if (dropdownContent.style.display === "none") {
+            dropdownContent.style.display = "block";
+        } else {
+            dropdownContent.style.display = "none";
+        }
+    }
 
-            e.target.selected = !e.target.selected;
-
-            setTimeout(function() { select.scrollTop = scroll; }, 0);
-
-            select.focus();
-        }, false);
-    });
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block") {
+                    openDropdown.style.display = "none";
+                }
+            }
+        }
+    }
 </script>
 {% endblock content %}
