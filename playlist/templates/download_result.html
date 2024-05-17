@@ -51,7 +51,7 @@
     <div class="card">
         <h2>{{ result_message }}</h2>
         {% if download_success %}
-            <a href="#" class="btn">Go to Download List</a>
+            <a href="{% url 'downloaded_songs' %}" class="btn">Go to Download List</a>
         {% endif %}
         <a href="{% url 'show_song' id_song=id_song %}" class="btn">Back to Song</a>
     </div>
