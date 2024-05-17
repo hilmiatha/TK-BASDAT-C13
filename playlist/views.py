@@ -34,7 +34,6 @@ def buat_playlist(request):
     return render(request, 'buat_playlist.html')
 
 def playlist_detail(request, id_playlist): ######### INI FITUR 3 BERLAKU JUGA
-    
     cursor = connection.cursor()
     cursor.execute(f"SELECT nama FROM akun a, user_playlist up WHERE a.email = up.email_pembuat AND up.id_playlist = '{id_playlist}';")
     nama_pembuat = parse(cursor)[0].get('nama')
@@ -48,10 +47,7 @@ def playlist_detail(request, id_playlist): ######### INI FITUR 3 BERLAKU JUGA
         'playlist_info': res2,
         'id_playlist_root' : id_playlist,
         'nama_pembuat' : nama_pembuat, 
-        
     }
-    
-    
     return render(request, 'playlist_detail.html', context)
 
 def tambah_lagu_to_playlist(request, id_playlist):

@@ -20,15 +20,6 @@ def see_chart(request):
     res = parse(cursor)
     context = {
         'charts' : res,
-        'is_logged_in' : True,
-        'user_type_info'  : {
-            'is_pengguna_biasa' : True,
-            'is_premium' : True,
-            'is_label' : False,
-            'is_podcaster' : False,
-            'is_artist' : True,
-            'is_songwriter' : False,
-        },  
     }
     return render(request, 'see_chart.html',context)
 
@@ -41,14 +32,5 @@ def see_songs_chart(request, id_playlist):
     context = {
         'chart' : res2,
         'chart_songs' : res,
-        'is_logged_in' : True,
-        'user_type_info'  : {
-            'is_pengguna_biasa' : True,
-            'is_premium' : True,
-            'is_label' : False,
-            'is_podcaster' : False,
-            'is_artist' : True,
-            'is_songwriter' : False,
-        },  
     }
     return render(request, 'see_songs_chart.html',context)
