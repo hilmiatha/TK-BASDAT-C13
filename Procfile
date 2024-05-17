@@ -1,0 +1,1 @@
+web: gunicorn tk_basdat.wsgi
