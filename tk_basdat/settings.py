@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-u&k9y&qde&zm+8!oe!$y2$948=1ri=y1fs&1%u9ot5wifltxky
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["localhost", '127.0.0.1', 'tk-basdat-c13-production.up.railway.app']
+
+CSRF_TRUSTED_ORIGINS = ['https://tk-basdat-c13-production.up.railway.app']
 
 
 # Application definition
