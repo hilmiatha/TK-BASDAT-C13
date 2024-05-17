@@ -258,32 +258,26 @@
 
 {% block content %}
 
-{% include 'navbar.html' %}
 <div class="centered-container">
     <div class="card">
         <h1>CREATE PODCAST</h1>
         <br>
-        <div class="input-group">
-            <span class="input-label"><strong>Judul:</strong></span>
-            <input type="text" placeholder="Enter title here">
-        </div>
-        <div class="dropdown">
-            <span class="genre-label"><strong>Genre:</strong></span>
-            <div id="dropdown-content" class="dropdown-content">
-                <input type="checkbox" id="cooking" name="genre" value="Cooking">
-                <label for="cooking">Cooking</label>
-                <input type="checkbox" id="informational" name="genre" value="Informational">
-                <label for="informational">Informational</label>
-                <input type="checkbox" id="entertainment" name="genre" value="Entertainment">
-                <label for="entertainment">Entertainment</label>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="judul">Judul:</label>
+                <input type="text" id="judul" name="judul" placeholder="Masukkan judul podcast" class="form-control" required>
             </div>
-        </div>
-        <button onclick="toggleDropdown()" class="dropbtn">Select Genre</button>
-        <div class="input-group">
-            <span class="input-label"><strong>Isian:</strong></span>
-            <input type="text" placeholder="Enter description here">
-        </div>
-        <button class="btn"><a href="#">Submit</a></button>
+            <div class="form-group">
+                <label for="genres">Genre:</label>
+                <select id="genres" name="genres" class="form-control" multiple>
+                    {% for genre in genres %}
+                        <option value="{{ genre.genre }}">{{ genre.genre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="submit" value="SUBMIT" class="btn">
+        </form>
         <br>
         <hr>
         <h1>LIST PODCAST</h1>
@@ -297,50 +291,36 @@
                 </tr>
             </thead>
             <tbody>
+                {% for podcast in podcasts %}
                 <tr>
-                    <td>Podcast 1</td>
-                    <td>0</td>
-                    <td>5 menit</td>
+                    <td>{{ podcast.judul }}</td>
+                    <td>{{ podcast.jumlah_episode }}</td>   
+                    <td>{{ podcast.durasi }}</td>                   
                     <td><button class="btn"><a href="#">Lihat Daftar Episode</a></button>
                         <button class="btn"><a href="#">Tambah Episode</a></button>
                         <button class="btn"><a href="#">Hapus Podcast</a></button>
                     </td>
                 </tr>
-                <tr>
-                    <td>Podcast 2</td>
-                    <td>3</td>
-                    <td>19 menit</td>
-                    <td><button class="btn"><a href="#">Lihat Daftar Episode</a></button>
-                        <button class="btn"><a href="#">Tambah Episode</a></button>
-                        <button class="btn"><a href="#">Hapus Podcast</a></button>
-                    </td>
-                </tr>
-                <!-- More rows can be added here -->
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 
 <script>
-    function toggleDropdown() {
-      var dropdownContent = document.getElementById("dropdown-content");
-      if (dropdownContent.style.display === "none") {
-        dropdownContent.style.display = "block";
-      } else {
-        dropdownContent.style.display = "none";
-      }
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        var genresSelect = document.getElementById('genres');
+        genresSelect.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            var select = this;
+            var scroll = select.scrollTop;
 
-    window.onclick = function(event) {
-      if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        for (var i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.style.display === "block") {
-            openDropdown.style.display = "none";
-          }
-        }
-      }
-    }
+            e.target.selected = !e.target.selected;
+
+            setTimeout(function() { select.scrollTop = scroll; }, 0);
+
+            select.focus();
+        }, false);
+    });
 </script>
 {% endblock content %}

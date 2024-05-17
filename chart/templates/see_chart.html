@@ -10,7 +10,7 @@
         height: 100%;
         padding-top: 120px; /* Adjust the padding as needed */
     }
-    
+
     .btn a {
         color: #5D4037; /* Dark brown */
         text-decoration: none; /* Removes underline */
@@ -140,8 +140,6 @@
 
 {% block content %}
 
-{% include 'navbar.html' %}
-
 <div class="centered-container">
     <div class="card">
         <h1>CHART LIST</h1>
@@ -154,20 +152,17 @@
                 </tr>
             </thead>
             <tbody>
+                {% for chart in charts %}
                 <tr>
-                    <td>Daily Top 20</td>
-                    <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button></td>
+                    <td>{{ chart.tipe }}</td>
+                    <td>
+                        <button class="btn"><a href="{% url 'see_songs_chart' id_playlist=chart.id_playlist %}">Lihat Daftar Lagu</a></button>
+                    </td>
                 </tr>
-                <tr>
-                    <td>Weekly Top 20</td>
-                    <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button></td>
-                </tr>
-                <!-- More rows can be added here -->
-            </tbody>
+                {% endfor %}
+            </tbody> <!-- Added closing tag for tbody -->
         </table>
+        <a href="#" class="btn" onclick="history.back(); return false;">Kembali</a>
     </div>
 </div>
-
-
-</script>
 {% endblock content %}

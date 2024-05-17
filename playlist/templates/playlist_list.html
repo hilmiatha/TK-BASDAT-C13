@@ -89,7 +89,7 @@
                         <td>
                             <a href="{% url 'playlist_detail' id_playlist=playlist.id_playlist %}">[Detail]</a>
                             <a href="{% url 'ubah_playlist' id_playlist=playlist.id_playlist %}">[Ubah]</a>
-                            <a href="#">[Hapus]</a>
+                            <a href="{% url 'hapus_playlist' id_playlist=playlist.id_playlist %}">[Hapus]</a>
                         </td>
                     </tr>
                     {% endfor %}

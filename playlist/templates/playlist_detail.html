@@ -92,13 +92,17 @@
         <!-- Playlist Detail Content -->
         <h2>USER PLAYLIST DETAIL</h2>
         <h3>Judul: {{ playlist_info.0.judul }}</h3>
-        <p>Pembuat: {{ playlist_info.0.email_pembuat }}</p>
+        <p>Pembuat: {{ nama_pembuat }}</p>
         <p>Jumlah Lagu: {{ playlist_info.0.jumlah_lagu }}</p>
         <p>Total Durasi: {{ playlist_info.0.total_durasi }}</p>
         <p>Tanggal Dibuat: {{ playlist_info.0.tanggal_dibuat }}</p>
         <p>Deskripsi: {{ playlist_info.0.deskripsi }}</p>
-        <a href="#" class="btn">Shuffle Play</a>
+        <a href="{% url 'shuffle_play' id_playlist=id_playlist_root %}" class="btn">Shuffle Play</a>
+        {% if playlist_info.0.email_pembuat == request.session.email %}
         <a href="{% url 'show_playlist' %}" class="btn">Kembali</a>
+        {% else %}
+        <a href="#" class="btn" onclick="history.back(); return false;">Kembali</a>
+        {% endif %}
 
         <!-- Songs Table -->
         <h2>DAFTAR LAGU</h2>
@@ -118,18 +122,18 @@
                     <td>{{ song.oleh }}</td>
                     <td>{{ song.durasi }} menit</td>
                     <td>
-                        <a href="#">[Lihat]</a>
-                        <a href="{% url 'show_song' id_song=song.id_lagu %}">[Play]</a> <!-- BELUM IMPLEMENTASI PLAY SONG -->
-                        {% if user_is_owner %}
-                        <a href="#">[Hapus]</a>
+                        <a href="{% url 'show_song' id_song=song.id_lagu %}">[Lihat]</a>
+                        <a href="{% url 'play_song' id_playlist=id_playlist_root id_song=song.id_lagu %}">[Play]</a> <!-- BELUM IMPLEMENTASI PLAY SONG -->
+                        {% if playlist_info.0.email_pembuat == request.session.email %}
+                        <a href="{% url 'hapus_lagu_dari_playlist' id_playlist=id_playlist_root id_lagu=song.id_lagu %}">[Hapus]</a>
                         {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        {% if user_is_owner %}
-        <a href="{% url 'tambah_lagu_to_playlist' id_playlist=playlist_info.0.id_user_playlist %}" class="btn">Tambah Lagu</a>
+        {% if playlist_info.0.email_pembuat == request.session.email %}
+        <a href="{% url 'tambah_lagu_to_playlist' id_playlist=id_playlist_root %}" class="btn">Tambah Lagu</a>
         {% endif %}
     </div>
 </div>

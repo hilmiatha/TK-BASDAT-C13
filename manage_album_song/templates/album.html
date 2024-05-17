@@ -247,30 +247,85 @@ input[type="radio"] {
 
 {% block content %}
 
-{% include 'navbar.html' %}
+{% comment %} {% include 'navbar.html' %} {% endcomment %}
 <div class="centered-container">
     <div class="card">
         <h1>CREATE ALBUM</h1>
         <br>
-        <div class="input-group">
-            <span class="input-label"><strong>Judul:</strong></span>
-            <input type="text" placeholder="Enter title here">
-        </div>
-        <div class="dropdown">
-            <span class="genre-label"><strong>Label:</strong></span>
-            <div id="dropdown-content" class="dropdown-content">
-                <input type="radio" id="label1" name="label" value="label1">
-                <label for="cooking">Label 1</label>
-                <input type="radio" id="label2" name="label" value="label2">
-                <label for="informational">Label 2</label>
-                <input type="radio" id="label3" name="label" value="label3">
-                <label for="entertainment">Label3</label>
+        <form action="{% url 'album' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <span class="input-label"><strong>Judul:</strong></span>
+                <input type="text" placeholder="Enter title here" name="judul">
             </div>
-        </div>
-        <button onclick="toggleDropdown()" class="dropbtn">Select Label</button>
-        <button class="btn"><a href="#">Submit</a></button>
-        <br>
+            <div class="dropdown">
+                <span class="genre-label"><strong>Label:</strong></span>
+                <div id="dropdown-content-label" class="dropdown-content">
+                    {% for label in labels %}
+                    <input type="radio" id={{label.id}} name="label" value={{label.id}}>
+                    <label for="cooking">{{label.nama}}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            <button onclick="toggleDropdown('dropdown-content-label')" type="button" class="dropbtn">Select Label</button>
+            <br>
+            <br>
+            <br>
+            <h1>LAGU PERTAMA</h1>
+            <br>
+            <br>
+            <div class="input-group">
+                <span class="input-label"><strong>Judul Lagu:</strong></span>
+                <input type="text" placeholder="Enter title here" name="judul_lagu">
+            </div>
+            {% if request.session.is_artist %}
+            <div class="input-group">
+                <span class="input-label"><strong>Artist: {{user.0.nama}}</strong></span>
+                <input type="hidden" name="id_artist" value="{{ user_as_artist.0.id }}">
+            </div>
+            {% elif request.session.is_songwriter%}
+            <div class="dropdown">
+                <span class="genre-label"><strong>Artist:</strong></span>
+                <div id="dropdown-content-artist" class="dropdown-content">
+                    {% for artist in artists %}
+                        <input type="radio" id="artist{{ artist.id }}" name="id_artist" value="{{ artist.id }}">
+                        <label for="artist{{ artist.id }}">{{ artist.akun_name }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            <button onclick="toggleDropdown('dropdown-content-artist')"  type="button" class="dropbtn">Select Artist</button>
+                
+            {% endif %}
+            <div class="dropdown">
+                <span class="genre-label"><strong>Songwriter:</strong></span>
+                <div id="dropdown-content-songwriter" class="dropdown-content">
+                    {% for songwriter in songwriters %}
+                        <input type="checkbox" id="songwriter{{ songwriter.id }}" name="songwriter" value="{{ songwriter.id }}"
+                        {% if songwriter.email_akun == request.session.email %}checked{% endif %}>
+                        <label for="songwriter{{ songwriter.id }}">{{ songwriter.akun_name }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            <button onclick="toggleDropdown('dropdown-content-songwriter')"  type="button" class="dropbtn">Select Songwriter</button>
+            <div class="dropdown">
+                <span class="genre-label"><strong>Genre:</strong></span>
+                <div id="dropdown-content-genre" class="dropdown-content">
+                    {% for genre in genres %}
+                        <input type="checkbox" id="genre{{ genre.genre }}" name="genre" value="{{ genre.genre }}">
+                        <label for="genre{{ genre.genre }}">{{ genre.genre }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+            <button onclick="toggleDropdown('dropdown-content-genre')" type="button" class="dropbtn">Select Genre</button>
+            <div class="input-group">
+                <span class="input-label"><strong>Durasi:</strong></span>
+                <input type="text" placeholder="Enter duration here" name="duration">
+            </div>
+            <input type="submit" class="btn" value="Submit">
+        </form>
         <hr>
+        <br>
+        <br>
         <h1>LIST ALBUM</h1>
         <table>
             <thead>
@@ -283,52 +338,43 @@ input[type="radio"] {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Album 1</td>
-                    <td>LabelA</td>
-                    <td>0</td>
-                    <td>5 menit</td>
-                    <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button>
-                        <button class="btn"><a href="#">Tambah Lagu</a></button>
-                        <button class="btn"><a href="#">Hapus Album</a></button>
-                    </td>
-                </tr>
-                <<tr>
-                    <td>Album 2</td>
-                    <td>LabelB</td>
-                    <td>20</td>
-                    <td>20 menit</td>
-                    <td><button class="btn"><a href="#">Lihat Daftar Lagu</a></button>
-                        <button class="btn"><a href="#">Tambah Lagu</a></button>
-                        <button class="btn"><a href="#">Hapus Album</a></button>
-                    </td>
-                </tr>
-                <!-- More rows can be added here -->
+                {% for album in albums %}
+                    <tr>
+                        <td>{{album.judul}}</td>
+                        <td>{{album.label_name}}</td>
+                        <td>{{album.jumlah_lagu}}</td>
+                        <td>{{album.total_durasi}}</td>
+                        <td><button class="btn"><a href="{% url 'songs' id=album.id %}">Lihat Daftar Lagu</a></button>
+                            <button class="btn"><a href="{% url 'songs' id=album.id %}">Tambah Lagu</a></button>
+                            <button class="btn"><a href="{% url 'delete_album' id=album.id %}">Hapus Album</a></button>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 
 <script>
-    function toggleDropdown() {
-      var dropdownContent = document.getElementById("dropdown-content");
-      if (dropdownContent.style.display === "none") {
-        dropdownContent.style.display = "block";
-      } else {
-        dropdownContent.style.display = "none";
-      }
+    function toggleDropdown(contentId) {
+        var dropdownContent = document.getElementById(contentId);
+        if (dropdownContent.style.display === "none") {
+            dropdownContent.style.display = "block";
+        } else {
+            dropdownContent.style.display = "none";
+        }
     }
 
     window.onclick = function(event) {
-      if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        for (var i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.style.display === "block") {
-            openDropdown.style.display = "none";
-          }
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block") {
+                    openDropdown.style.display = "none";
+                }
+            }
         }
-      }
     }
 </script>
 {% endblock content %}

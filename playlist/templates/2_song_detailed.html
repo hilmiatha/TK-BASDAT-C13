@@ -51,41 +51,6 @@
         width: 100%; /* Full width sliders */
         margin: 10px 0;
     }
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        z-index: 9999; /* Sit on top */
-        align-items: center; /* Center vertically */
-        justify-content: center; /* Center horizontally */
-    }
-    .modal-content {
-        background-color: #fefefe;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 50%;
-        text-align: center;
-        border-radius: 10px;
-    }
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
 </style>
 {% endblock meta %}
 
@@ -110,29 +75,15 @@
             <button type="submit" class="btn">Play</button>
         </form>
         
-        {% if user_is_premium %}
-            <button class="btn" onclick="showDownloadModal();">Download</button>
+        {% if request.session.is_premium %}
+            <form method="POST" action="{% url 'download_song' id_song=song_info.id_konten %}">
+                {% csrf_token %}
+                <button type="submit" class="btn">Download</button>
+            </form>
         {% endif %}
-        <button class="btn"><a href="{% url 'add_song_to_playlist' id_song=song_info.id_konten %}">Add to Playlist</a></button>
-        <button class="btn"><a href="#">Kembali</a></button>
+        
+        <a href="{% url 'add_song_to_playlist' id_song=song_info.id_konten %}" class="btn">Add to Playlist</a>
+        <a href="#" class="btn" onclick="history.back(); return false;">Kembali</a>
     </div>
 </div>
-
-<!-- Modal for Download Confirmation -->
-<div id="downloadModal" class="modal">
-    <div class="modal-content">
-        <p>Berhasil mengunduh Lagu dengan judul 'Song1'!</p>
-        <a href="#" class="btn">KE DAFTAR DOWNLOAD</a>
-        <a href="#" class="btn" onclick="closeDownloadModal()">KEMBALI</a>
-    </div>
-</div>
-
-<script>
-    function showDownloadModal() {
-        document.getElementById('downloadModal').style.display = 'flex';
-    }
-    function closeDownloadModal() {
-        document.getElementById('downloadModal').style.display = 'none';
-    }
-</script>
 {% endblock content %}

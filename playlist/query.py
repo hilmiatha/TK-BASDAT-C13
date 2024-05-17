@@ -1,4 +1,7 @@
 
+from uuid import uuid4
+
+
 def get_playlist(email_pembuat):
     return f"""SELECT * FROM user_playlist WHERE email_pembuat = '{email_pembuat}';"""
 
@@ -46,7 +49,41 @@ def get_lagu():
  
 def get_judul_deskripsi_playlist(id_playlist):
     return f"""select judul, deskripsi from user_playlist where id_playlist = '{id_playlist}';"""
-  
+
+
+def insert_playlist(email_pembuat, judul, deskripsi):
+    uuid_playlist = str(uuid4())
+    uuid_user_playlist = str(uuid4())
+    return f"""INSERT INTO playlist (id)
+VALUES ('{uuid_playlist}');
+INSERT INTO user_playlist (email_pembuat, id_user_playlist, judul, deskripsi, jumlah_lagu, tanggal_dibuat, id_playlist, total_durasi)
+VALUES ('{email_pembuat}', '{uuid_user_playlist}', '{judul}', '{deskripsi}', 0, current_date, '{uuid_playlist}', 0);"""
+
+
+def delete_playlist(id_user_playlist, id_playlist):
+    return f"""DELETE FROM playlist WHERE id = '{id_playlist}';
+DELETE FROM user_playlist
+WHERE id_user_playlist = '{id_user_playlist}';
+DELETE FROM playlist_song
+WHERE id_playlist = '{id_playlist}';
+DELETE FROM akun_play_user_playlist
+WHERE id_user_playlist = '{id_user_playlist}';"""
+
+def update_playlist(title, description, id_user_playlist):
+    return f"""UPDATE user_playlist
+SET judul = '{title}', deskripsi = '{description}'
+WHERE id_user_playlist = '{id_user_playlist}';"""
+
+def insert_playlist_song(id_playlist, id_lagu, durasi):
+    return f"""INSERT INTO playlist_song (id_playlist, id_song)
+VALUES ('{id_playlist}', '{id_lagu}');
+"""
+
+
+def delete_song_from_playlist(id_playlist, id_lagu):
+    return f"""DELETE FROM playlist_song 
+WHERE id_playlist = '{id_playlist}' AND id_song = '{id_lagu}';
+"""
   
   
   
