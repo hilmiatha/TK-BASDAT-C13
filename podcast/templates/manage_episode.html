@@ -258,31 +258,34 @@
 
 {% block content %}
 
-{% include 'navbar.html' %}
 <div class="centered-container">
     <div class="card">
         <h1>CREATE EPISODE</h1>
         <br>
         <div class="input-group">
-            <span class="input-label"><strong>Podcast: Podcast1</strong></span>
+            <span class="input-label"><strong>Podcast: {{ podcast.judul }}</strong></span>
         </div>
         <br>
-        <div class="input-group">
-            <span class="input-label"><strong>Judul:</strong></span>
-            <input type="text" placeholder="Enter title here">
-        </div>
-        <div class="input-group">
-            <span class="input-label"><strong>Deskripsi:</strong></span>
-            <input type="text" placeholder="Enter description here">
-        </div>
-        <div class="input-group">
-            <span class="input-label"><strong>Durasi:</strong></span>
-            <input type="text" placeholder="Enter duration here">
-        </div>
-        <button class="btn"><a href="#">Submit</a></button>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="judul">Judul:</label>
+                <input type="text" id="judul" name="judul" placeholder="Masukkan judul episode" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="deskripsi">Deskripsi:</label>
+                <input type="text" id="deskripsi" name="deskripsi" placeholder="Masukkan deskripsi episode" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="durasi">Durasi:</label>
+                <input type="number" id="durasi" name="durasi" placeholder="Masukkan durasi episode" class="form-control" required min="0" step="1">
+            </div>
+            <input type="submit" value="SUBMIT" class="btn">
+        </form>
         <br>
         <hr>
-        <h1>DAFTAR EPISODE PADA PODCAST1</h1>
+        {% if episodes %}
+        <h1>Daftar Episode Pada {{ podcast.judul }}</h1>
         <table>
             <thead>
                 <tr>
@@ -290,54 +293,23 @@
                     <th>Deskripsi</th>
                     <th>Durasi</th>
                     <th>Tanggal</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
+                {% for episode in episodes %}
                 <tr>
-                    <td>Subjudul 1</td>
-                    <td>Lorem Ipsum blablablabal</td>
-                    <td>59 menit</td>
-                    <td>10/02/2024</td>
-                    <td><button class="btn">
-                        <a href="#">Hapus Episode</a></button>
-                    </td>
+                    <td>{{ episode.judul }}</td>
+                    <td>{{ episode.deskripsi }}</td>
+                    <td>{{ episode.durasi }}</td>
+                    <td>{{ episode.tanggal }}</td>
                 </tr>
-                <tr>
-                    <td>Subjudul 1</td>
-                    <td>Lorem Ipsum blablablabal</td>
-                    <td>59 menit</td>
-                    <td>10/02/2024</td>
-                    <td><button class="btn">
-                        <a href="#">Hapus Episode</a></button>
-                    </td>
-                </tr>
-                <!-- More rows can be added here -->
+                {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <h1>Podcast {{ podcast.judul }} tidak ada episode.</h>
+        {% endif %}
     </div>
 </div>
 
-<script>
-    function toggleDropdown() {
-      var dropdownContent = document.getElementById("dropdown-content");
-      if (dropdownContent.style.display === "none") {
-        dropdownContent.style.display = "block";
-      } else {
-        dropdownContent.style.display = "none";
-      }
-    }
-
-    window.onclick = function(event) {
-      if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        for (var i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.style.display === "block") {
-            openDropdown.style.display = "none";
-          }
-        }
-      }
-    }
-</script>
 {% endblock content %}

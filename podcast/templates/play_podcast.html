@@ -154,6 +154,7 @@
         <a href="#" class="btn" onclick="history.back(); return false;">Kembali</a>
         <br>
         <hr>
+        {% if episodes %}
         <h1>DAFTAR EPISODE</h1>
         <table>
             <thead>
@@ -175,6 +176,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <h1>Podcast {{ info_podcast.judul }} tidak ada episode.</h>
+        {% endif %}
     </div>
 </div>
 
