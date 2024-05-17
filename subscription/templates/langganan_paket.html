@@ -62,7 +62,7 @@
             <thead>
                 <tr>
                   <th scope="col" style="text-align: left;">LANGGANAN PAKET</th>
-                  <th scope="col" style="text-align: right; width: 30%;"><button class="btn">See History</button></th>
+                  <th scope="col" style="text-align: right; width: 30%;"><a class="btn" href="{% url 'riwayat_paket' %}">See History</a></th>
                 </tr>
             </thead>
         </table>
@@ -75,26 +75,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1 Bulan</td>
-                    <td>Rp54.000</td>
-                    <td><button class="btn" style="width: 60%; margin-left: 20%;">Subscribe</button></td>
-                </tr>
-                <tr>
-                    <td>3 Bulan</td>
-                    <td>Rp84.000</td>
-                    <td><button class="btn" style="width: 60%; margin-left: 20%;">Subscribe</button></td>
-                </tr>
-                <tr>
-                    <td>6 Bulan</td>
-                    <td>Rp100.000</td>
-                    <td><button class="btn" style="width: 60%; margin-left: 20%;">Subscribe</button></td>
-                </tr>
-                <tr>
-                    <td>1 tahun</td>
-                    <td>Rp130.000</td>
-                    <td><button class="btn" style="width: 60%; margin-left: 20%;">Subscribe</button></td>
-                </tr>
+                <tbody>
+                    {% for paket in semua_paket %}
+                    <tr>
+                        <td>{{ paket.jenis }}</td>
+                        <td>{{ paket.harga }}</td>
+                        <td><a class="btn" style="width: 60%; margin-left: 20%;" href="{% url 'pembayaran_paket' paket.jenis %}">Subscribe</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                
             </tbody>
           </table>
     </div>
