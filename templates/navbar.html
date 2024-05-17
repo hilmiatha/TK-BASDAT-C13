@@ -73,7 +73,7 @@
                 <div class="w-0.5 h-8 bg-tertiary"></div>
                 <a href="{% url 'show_playlist' %}" class="text-xl font-medium nav-link">Kelola Playlist</a>
                 <div class="w-0.5 h-8 bg-tertiary"></div>
-                <a href="#" class="text-xl font-medium nav-link">Langganan Paket</a>
+                <a href="{% url 'langganan_paket' %}" class="text-xl font-medium nav-link">Langganan Paket</a>
             {% endif %}
 
             {% if request.session.is_premium %}

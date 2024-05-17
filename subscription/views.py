@@ -1,8 +1,9 @@
-from django.shortcuts import redirect, render
+from django.http import JsonResponse
+from django.shortcuts import render
 from utils import parse
 from django.db import connection, DatabaseError, transaction
 from .query import *
-from datetime import datetime, timedelta
+from datetime import datetime
 from uuid import uuid4
 
 # Create your views here.
@@ -82,8 +83,10 @@ def pay_paket(request):
             
             cursor.execute(create_transaction(id_transaksi, jenis, request.session['email'], timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal))
             transaction.commit()
-            langganan_paket(request)
+            request.session['is_premium'] = True
+            return JsonResponse({'success': True, 'message': 'Pembelian paket berhasil'})
         except DatabaseError as e:
             print(f"Database error occurred: {e}")
             transaction.rollback()
+            return JsonResponse({'success': False, 'message': 'Pembelian paket gagal'})
 
