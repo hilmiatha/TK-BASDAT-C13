@@ -23,4 +23,4 @@ def delete_downloaded_song(request, id_song, email_downloader):
         connection.commit()
         cursor.execute(get_song_name(id_song))
         deleted_song_name = parse(cursor)
-        return JsonResponse({'success': True, 'message': f'Berhasil menghapus lagu dengan judul "{deleted_song_name[0].get('judul')}" dari daftar unduhan!'})
+        return JsonResponse({'success': True, 'message': f"Berhasil menghapus lagu dengan judul '{deleted_song_name[0].get('judul')}' dari daftar unduhan!"})
