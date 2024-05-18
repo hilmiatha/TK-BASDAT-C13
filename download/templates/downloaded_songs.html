@@ -8,22 +8,29 @@
         margin: 0;
         font-family: 'Poppins', sans-serif;
         background-color: #F4EFEA; /* Light cream background */
+        overflow-x: hidden; /* Prevent horizontal overflow */
     }
     .centered-container {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: flex-start; /* Change from center to flex-start to align content to the top */
         align-items: center;
-        height: 100%;
-        width: 100%;
+        min-height: 100vh; /* This makes sure it covers at least the entire height of the viewport */
+        width: 100%; /* Covers full width */
+        padding-top: 50px; /* Adjust top padding as needed */
+        margin: 0;
+        overflow: auto; /* Allows scrolling within this container if content overflows */
     }
     .card {
-        background: #FFF8F0; /* Light sandy color */
-        border-radius: 25px;
+        background-color: #FFF; /* Ensures the card background is white */
+        border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 40px;
-        width: 90%; /* Adjust width as necessary */
-        text-align: center;
-        margin-top: 3%;
+        padding: 20px;
+        width: 80%;
+        max-width: 600px;
+        margin-bottom: 20px; /* Ensure there is spacing below the card */
+        text-align: left;
+        overflow: hidden; /* Hides any overflow within the card, but better to manage content size */
     }
     h1 {
         color: #5D4037; /* Dark brown color */
