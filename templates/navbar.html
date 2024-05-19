@@ -72,10 +72,8 @@
                 <a href="{% url 'see_chart' %}" class="text-xl font-medium nav-link">Charts</a>
                 <div class="w-0.5 h-8 bg-tertiary"></div>
                 <a href="{% url 'show_playlist' %}" class="text-xl font-medium nav-link">Kelola Playlist</a>
-                {% if not request.session.is_premium %}
                 <div class="w-0.5 h-8 bg-tertiary"></div>
                 <a href="{% url 'langganan_paket' %}" class="text-xl font-medium nav-link">Langganan Paket</a>
-                {% endif %}
             {% endif %}
 
             {% if request.session.is_premium %}

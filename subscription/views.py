@@ -43,6 +43,9 @@ def riwayat_paket(request):
     cursor.execute(get_riwayat_transaksi(request.session['email']))
     result = parse(cursor)
 
+    for row in result:
+        row['nominal'] = f"Rp{row['nominal']:,.0f}".replace(",", ".")
+
     context = {
         'riwayat_transaksi' : result 
     }
@@ -86,7 +89,6 @@ def pay_paket(request):
             request.session['is_premium'] = True
             return JsonResponse({'success': True, 'message': 'Pembelian paket berhasil'})
         except DatabaseError as e:
-            print(f"Database error occurred: {e}")
             connection.rollback()
-            return JsonResponse({'success': False, 'message': 'Pembelian paket gagal'})
+            return JsonResponse({'success': False, 'message': 'Pembelian paket gagal. Anda sedang memiliki paket yang aktif.'})
 
