@@ -201,12 +201,12 @@ def download_song(request, id_song):
     try:
         with transaction.atomic():
             cursor.execute(f"INSERT INTO downloaded_song (id_song, email_downloader) VALUES ('{id_song}', '{request.session['email']}');")
-            cursor.execute(f"UPDATE song SET total_download = total_download + 1 WHERE id_konten = '{id_song}';")
+            
 
         context.update({
             'result_message': f'Berhasil mengunduh Lagu dengan judul "{get_song_title(id_song)}"!',
             'download_success': True,
-            # 'download_list_url': reverse('#'), ##BELOM NUNGGU FITUR DOWNLOADED LIST
+            'download_list_url': reverse('downloaded_songs'), ##BELOM NUNGGU FITUR DOWNLOADED LIST
         })
     except DatabaseError as e:
         if 'Lagu sudah pernah diunduh' in str(e):
