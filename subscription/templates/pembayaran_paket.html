@@ -114,6 +114,14 @@
         $('#paymentModal').modal();
         $('#payment-form').on('submit', function(event){
             event.preventDefault(); // Prevent the default form submission
+
+            // Check if the payment method is selected
+            if ($('select[name="metode_bayar"]').val() === null) {
+                // Show modal with error message
+                $('#paymentModal .modal-body').text('Anda belum memilih metode pembayaran.');
+                $('#paymentModal').modal('show');
+                return;
+            }
             
             $.ajax({
                 type: 'POST',
