@@ -2,15 +2,6 @@
 
 {% block meta %}
 <style>
-    .centered-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        padding-top: 120px; /* Adjust the padding as needed */
-    }
-    
     .btn a {
         color: #5D4037; /* Dark brown */
         text-decoration: none; /* Removes underline */
@@ -52,29 +43,49 @@
         text-align: center; /* Center-align the text in the header cells */
     }
 
+    .card {
+        background-color: #FFF; /* White background for the card */
+    }
+
     body, html {
-        height: 100%;
+        background-color: #FFF; /* Set the background color to white */
+        min-height: 100%;
         margin: 0;
         font-family: 'Poppins', sans-serif;
-        background-color: #F4EFEA; /* Light cream background */
+        background-size: cover;
+        overflow-x: hidden; /* Prevent horizontal overflow */
     }
+
+    .genre-label {
+        font-family: 'Poppins', sans-serif; /* Ensures font consistency */
+        color: #5D4037; /* Dark brown, matching the body text color */
+        padding-right: 10px; /* Adds some spacing between the label and the button */
+    }
+
     .centered-container {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start; /* Change from center to flex-start to align content to the top */
         align-items: center;
-        height: 100%;
+        min-height: 100vh; /* This makes sure it covers at least the entire height of the viewport */
+        width: 100%; /* Covers full width */
+        padding-top: 50px; /* Adjust top padding as needed */
+        margin: 0;
+        overflow: auto; /* Allows scrolling within this container if content overflows */
     }
+
     .card {
-        background: #FFF8F0; /* Light sandy color */
+        background-color: #FFF; /* Ensures the card background is white */
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 20px;
         width: 80%;
         max-width: 600px;
-        margin: 20px;
+        margin-bottom: 20px; /* Ensure there is spacing below the card */
         text-align: left;
+        overflow: hidden; /* Hides any overflow within the card, but better to manage content size */
     }
+
     p {
         color: #5D4037; /* Dark brown */
     }
@@ -100,6 +111,29 @@
         width: 100%; /* Full width sliders */
         margin: 10px 0;
     }
+
+    .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
     .modal {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
@@ -135,7 +169,93 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+
+    .btn, .dropbtn {
+        display: inline-block;
+        width: 100%;
+        padding: 8px 15px;
+        margin-top: 10px;
+        background-color: #D7CCC8; /* Light brown */
+        color: #5D4037; /* Dark brown */
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn:hover, .dropbtn:hover {
+        background-color: #A1887F; /* Darker brown */
+        color: #FFF;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 1;
+        width: calc(100% - 20px); /* Adjust width to align with button */
+    }
+
+    .dropdown-content label {
+        display: block;
+        margin: 5px 0px;
+    }
+
+    input[type="text"] {
+        width: calc(100% - 20px); /* Adjust width to ensure padding is included */
+        padding: 8px 15px; /* Same padding as buttons for consistency */
+        margin-top: 10px; /* Same top margin as buttons */
+        background-color: #FFF; /* White background to match button style */
+        border: 2px solid #D7CCC8; /* Border color to match button */
+        border-radius: 5px; /* Rounded corners like the buttons */
+        font-size: 16px; /* Font size to match button text */
+        color: #5D4037; /* Text color to match button */
+        font-family: 'Poppins', sans-serif; /* Font family to match site */
+        box-sizing: border-box; /* Include padding and border in width */
+    }
+
+    input[type="text"]:focus {
+        border-color: #A1887F; /* Darker border color on focus */
+        outline: none; /* Remove default focus outline */
+    }
+
+    .dropdown, .input-group {
+        display: flex;
+        align-items: center; /* Vertical alignment of the elements */
+        width: 100%; /* Full width to align properly */
+    }
+
+    .genre-label, .input-label {
+        margin-right: 10px; /* Spacing between labels and input/button */
+        white-space: nowrap; /* Prevents the label from wrapping */
+    }
+
+    /* Button and dropdown button styles */
+    .btn, .dropbtn {
+        display: inline-block;
+        width: 100%;
+        padding: 8px 15px;
+        background-color: #D7CCC8; /* Light brown */
+        color: #5D4037; /* Dark brown */
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn:hover, .dropbtn:hover {
+        background-color: #A1887F; /* Darker brown */
+        color: #FFF;
+    }
 </style>
+
 {% endblock meta %}
 
 {% block content %}
